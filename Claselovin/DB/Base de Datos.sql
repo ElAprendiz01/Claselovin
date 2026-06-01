@@ -1,6 +1,6 @@
 -- =========================================================================
 -- SISTEMA DE CONTROL PRESUPUESTARIO EMPRESARIAL
--- ARQUITECTURA DE BASE DE DATOS OPTIMIZADA (DBAnalystPro)
+-- ARQUITECTURA DE BASE DE DATOS OPTIMIZADA - VERSIÓN FINAL BLINDADA
 -- =========================================================================
 
 CREATE DATABASE Presupuesto_Empresarial;
@@ -10,7 +10,7 @@ USE Presupuesto_Empresarial;
 GO
 
 -- =========================================================================
--- 1. MAESTROS Y CATÁLOGOS (ESTRUCTURAS MADRE)
+-- 1. MAESTROS, CATÁLOGOS Y MONEDAS (ESTRUCTURAS MADRE)
 -- =========================================================================
 
 CREATE TABLE Cat_Estado (
@@ -18,7 +18,7 @@ CREATE TABLE Cat_Estado (
     Estado NVARCHAR(30) NOT NULL,
     Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(),
     Fecha_Modificacion DATETIME2(2),
-    Id_Creador INT NULL, -- Permite romper la dependencia circular inicial
+    Id_Creador INT NULL, 
     Id_Modificador INT,
     Activo BIT DEFAULT 1 NOT NULL
 );
@@ -47,8 +47,17 @@ CREATE TABLE Cat_General (
 );
 GO
 
+CREATE TABLE Cat_Monedas (
+    Id_Moneda INT PRIMARY KEY IDENTITY(1,1),
+    Codigo_ISO VARCHAR(3) NOT NULL CONSTRAINT UQ_Moneda_ISO UNIQUE, -- Ej: 'USD', 'NIO', 'EUR'
+    Nombre_Moneda NVARCHAR(50) NOT NULL,
+    Simbolo VARCHAR(5) NOT NULL,
+    Activo BIT DEFAULT 1 NOT NULL
+);
+GO
+
 -- =========================================================================
--- 2. ENTIDADES DE PERSONAL Y SEGURIDAD (CONSTRAINTS EXPLÍCITAS)
+-- 2. ENTIDADES DE PERSONAL Y SEGURIDAD
 -- =========================================================================
 
 CREATE TABLE Tbl_Datos_Personales (
@@ -97,7 +106,7 @@ GO
 CREATE TABLE Tbl_Usuarios (
     Id_Usuario INT PRIMARY KEY IDENTITY(1,1),
     Usuario NVARCHAR(50) NOT NULL CONSTRAINT UQ_Usuarios_Login UNIQUE,
-    Contrasena NVARCHAR(255) NOT NULL, -- Diseñado para Hashes fuertes (ej. bcrypt)
+    Contrasena NVARCHAR(255) NOT NULL, 
     Id_Persona INT CONSTRAINT FK_Usuarios_Persona REFERENCES Tbl_Datos_Personales(Id_Persona),
     Id_Rol INT CONSTRAINT FK_Usuarios_Rol REFERENCES Tbl_Roles(Id_Rol),
     Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(),
@@ -108,7 +117,6 @@ CREATE TABLE Tbl_Usuarios (
 );
 GO
 
--- Aplicación de Integridad Referencial Cruzada de Auditoría Post-Creación
 ALTER TABLE Tbl_Datos_Personales ADD CONSTRAINT FK_Persona_Creador FOREIGN KEY (Id_Creador) REFERENCES Tbl_Usuarios(Id_Usuario);
 ALTER TABLE Tbl_Usuarios ADD CONSTRAINT FK_Usuario_Creador FOREIGN KEY (Id_Creador) REFERENCES Tbl_Usuarios(Id_Usuario);
 GO
@@ -158,8 +166,8 @@ GO
 CREATE TABLE Tbl_Presupuestos (
     Id_Presupuesto INT PRIMARY KEY IDENTITY(1,1),
     Anio_Fiscal INT NOT NULL CONSTRAINT CK_Anio_Fiscal CHECK (Anio_Fiscal >= 2020),
+    Id_Moneda INT CONSTRAINT FK_Presupuestos_Moneda REFERENCES Cat_Monedas(Id_Moneda) DEFAULT 1, 
     Descripcion NVARCHAR(150),
-    -- SE ELIMINA LA COLUMNA ASÍNCRONA 'Monto_Total_Asignado' PARA PREVENIR ANOMALÍAS DE ACTUALIZACIÓN
     Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(),
     Fecha_Modificacion DATETIME2(2),
     Id_Creador INT CONSTRAINT FK_Presupuestos_Creador REFERENCES Tbl_Usuarios(Id_Usuario) NOT NULL,
@@ -184,6 +192,18 @@ CREATE TABLE Tbl_Detalle_Presupuesto (
 );
 GO
 
+-- NUEVA TABLA: Historial controlado de adendas/ajustes presupuestarios
+CREATE TABLE Tbl_Ajustes_Presupuesto (
+    Id_Ajuste INT PRIMARY KEY IDENTITY(1,1),
+    Id_Presupuesto_Detalle INT CONSTRAINT FK_Ajustes_Detalle REFERENCES Tbl_Detalle_Presupuesto(Id_Presupuesto_Detalle),
+    Tipo_Ajuste VARCHAR(15) NOT NULL CONSTRAINT CK_Tipo_Ajuste CHECK (Tipo_Ajuste IN ('INCREMENTO', 'REDUCCION')),
+    Monto_Ajuste DECIMAL(18,2) NOT NULL CONSTRAINT CK_Monto_Ajuste CHECK (Monto_Ajuste > 0),
+    Justificacion NVARCHAR(255) NOT NULL,
+    Fecha_Ajuste DATETIME2(2) DEFAULT SYSDATETIME(),
+    Id_Creador INT CONSTRAINT FK_Ajustes_Creador REFERENCES Tbl_Usuarios(Id_Usuario) NOT NULL
+);
+GO
+
 -- =========================================================================
 -- 4. OPERACIONES, LOGÍSTICA DE CONTROL Y LOGS
 -- =========================================================================
@@ -191,6 +211,7 @@ GO
 CREATE TABLE Tbl_Gastos (
     Id_Gasto INT PRIMARY KEY IDENTITY(1,1),
     Id_Presupuesto_Detalle INT CONSTRAINT FK_Gastos_DetallePresupuesto REFERENCES Tbl_Detalle_Presupuesto(Id_Presupuesto_Detalle),
+    Id_Tipo_Gasto INT CONSTRAINT FK_Gastos_TipoGasto REFERENCES Cat_General(Id_Catalogo), -- Tipo: Caja chica, Reembolso, Factura Directa
     Descripcion_Gasto NVARCHAR(255) NOT NULL,
     Monto_Gasto DECIMAL(18,2) NOT NULL CONSTRAINT CK_Monto_Gasto CHECK (Monto_Gasto > 0),
     Fecha_Gasto DATETIME2(2) NOT NULL DEFAULT SYSDATETIME(),
@@ -222,7 +243,7 @@ GO
 CREATE TABLE Tbl_Alertas (
     Id_Alerta INT PRIMARY KEY IDENTITY(1,1),
     Id_Presupuesto_Detalle INT CONSTRAINT FK_Alertas_DetallePresupuesto REFERENCES Tbl_Detalle_Presupuesto(Id_Presupuesto_Detalle),
-    Porcentaje_Consumido DECIMAL(5,2) NOT NULL, -- Optimización: Suficiente para registrar hasta 999.99% ocupando solo 5 bytes
+    Porcentaje_Consumido DECIMAL(5,2) NOT NULL, 
     Mensaje_Alerta NVARCHAR(255) NOT NULL,
     Fecha_Generada DATETIME2(2) DEFAULT SYSDATETIME(),
     Leida BIT DEFAULT 0 NOT NULL,
