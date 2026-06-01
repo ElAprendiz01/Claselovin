@@ -1,0 +1,37 @@
+Gestión de Proyectos de Software
+
+Proyecto: Definido por el profesor
+Entrega: Documentación + Proyecto
+
+Tema del proyecto
+1. Antecedentes (realizar investigaciones a proyectos realizados previamente)
+2. Preguntas
+3. Objetivos (1 general + 3 específicos)
+
+Métrica del Software
+4. Requerimientos funcionales y no funcionales
+5. Estudio de factibilidad:
+	-Técnica
+	-Económica
+	-Operativa
+	-Licencia
+6. Diagramas UML (20 diagramas para casos de uso)
+7. Diagrama modelo-entidad, entidad-relación
+8. Diagrama de clases
+9. Diagrama de secuencias
+10. Diagrama de paquetes
+11. Diagrama arquitectónicos seleccionados
+12. Diagrama de interfaces
+13. Diagrama de servicios
+14. Manual de usuarios
+15. Documentación oficial de pruebas unitarias de unitest
+16. Pruebas de usuario
+17. Plan de capacitación del personal
+18. Conclusiones
+
+Proyecto
+1. Motor de base de datos SQL Server
+2. C# + Clean Architecture
+3. .NET Core 9 o 10
+4. API con doble plataforma (React + Vite, Reac Native Móvil)
+5. Entrega de APK
