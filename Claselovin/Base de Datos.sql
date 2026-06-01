@@ -215,3 +215,4 @@ GO
 
 
 -- el tema es sistema de presupuesto empresarial, es decir, una empresa tiene varios departamentos, cada departamento tiene centros de costo, y cada centro de costo tiene un presupuesto asignado para un año fiscal. Luego, a medida que se registran gastos, el sistema debe controlar que no se exceda el monto presupuestado y generar alertas si se acerca al límite. Además, debe haber un proceso de aprobación para los presupuestos y los gastos registrados.
+
