@@ -70,5 +70,5 @@ GROUP BY
     P.Id_Estado;
 GO
 
-
+select * from Vw_Presupuestos_Consolidados
 -- nota para  recibir los datos del gasto, y  meter el registro, actualizar  el detalle presupuestario automáticamente y, en ese mismo instante, calcular si debe o no registrar la alerta, este hacerlo en sl sp de los gastos hacer el update y asi mismo trabajar  las otras tablas para no crear trigges que eso estan activos y asi no se gast recurso solo se ejcunta cuando se ejcuta el sp nada mas
