@@ -1,6 +1,6 @@
 -- =========================================================================
 -- SISTEMA DE CONTROL PRESUPUESTARIO EMPRESARIAL
--- ARQUITECTURA DE BASE DE DATOS OPTIMIZADA - VERSIÓN FINAL BLINDADA
+-- ARQUITECTURA DE BASE DE DATOS OPTIMIZADA 
 -- =========================================================================
 
 CREATE DATABASE Presupuesto_Empresarial;
@@ -23,6 +23,7 @@ CREATE TABLE Cat_Estado (
     Activo BIT DEFAULT 1 NOT NULL
 );
 GO
+
 
 CREATE TABLE Cat_Tipo_Catalogo (
     Id_Tipo_Catalogo INT PRIMARY KEY IDENTITY(1,1),
@@ -236,7 +237,7 @@ CREATE TABLE Tbl_Aprobaciones (
     CONSTRAINT CK_Entidad_Aprobacion CHECK (
         (Id_Presupuesto IS NOT NULL AND Id_Gasto IS NULL) OR 
         (Id_Gasto IS NOT NULL AND Id_Presupuesto IS NULL)
-    )
+    )O
 );
 GO
 

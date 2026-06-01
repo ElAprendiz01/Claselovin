@@ -1,0 +1,367 @@
+
+DOCUMENTACION TECNICA COMPLETA DEL SISTEMA DE CONTROL PRESUPUESTARIO EMPRESARIAL
+
+
+DISEÑO Y ARQUITECTURA DE FLUJOS ASINCRONOS Y RELACIONES EN BASE DE DATOS
+Base de Datos: Presupuesto_Empresarial
+Ambiente: Microsoft SQL Server v16.0 mas reciente
+
+Este documento detalla rigurosamente el diseño estructural, flujos operativos,
+restricciones de integridad relacional, politicas de auditoria y metodos de 
+sincronizacion transaccional que gobiernan la base de datos empresarial.
+
+
+
+SECCION 1: ARQUITECTURA DE CATALOGOS Y ESTRUCTURAS MADRE (MAESTROS)
+
+
+Cat_Estado
+  Descripcion: 
+    Catalogo maestro centralizado encargado de administrar todos los estados 
+    posibles que pueden tomar las entidades del sistema (ej. Activo, Inactivo, 
+    Aprobado, Rechazado, Pendiente). Actua como un clasificador tipificado.
+  Columnas y Tipos de Datos:
+    Id_Estado INT PRIMARY KEY IDENTITY(1,1): Identificador unico incremental.
+    Estado NVARCHAR(30) NOT NULL: Nombre descriptivo del estado operacional.
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Marca temporal de alta.
+    Fecha_Modificacion DATETIME2(2): Registro de auditoria de cambios.
+    Id_Creador INT NULL: Usuario que dio de alta el registro (Null al arranque).
+    Id_Modificador INT: Usuario que altero el registro por ultima vez.
+    Activo BIT DEFAULT 1 NOT NULL: Estado de borrado logico a nivel de fila.
+  Sincronizacion y Relaciones:
+    Entrada: Recibe actualizaciones basicas mediante mantenimiento de tablas.
+    Salida: Sus llaves primarias se propagan hacia practicamente todas las 
+    tablas relacionales del sistema, como Tbl_Datos_Personales, Tbl_Usuarios,
+    Tbl_Presupuestos, Tbl_Gastos y Tbl_Alertas para validar el ciclo de vida.
+
+Cat_Tipo_Catalogo
+  Descripcion:
+    Tabla contenedora que define las familias o clasificaciones macro para los 
+    sub-catalogos del sistema. Evita la proliferacion desmedida de tablas 
+    pequeñas aplicando el patron de diseño de catalogo general polimorfico.
+  Columnas y Tipos de Datos:
+    Id_Tipo_Catalogo INT PRIMARY KEY IDENTITY(1,1): Identificador de la familia.
+    Nombre NVARCHAR(50) NOT NULL: Agrupador (ej. Genero, Tipo DNI, Tipo Gasto).
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Auditoria nativa de tiempo.
+    Fecha_Modificacion DATETIME2(2): Ultima actualizacion del tipo de catalogo.
+    Id_Creador INT NULL: Mapeo de usuario ejecutor del insert inicial.
+    Id_Modificador INT: Mapeo de usuario ejecutor del update de estructura.
+    Activo BIT DEFAULT 1 NOT NULL: Estado de vigencia del agrupador general.
+  Sincronizacion y Relaciones:
+    Salida: Ofrece relacion directa de uno a muchos hacia la tabla Cat_General.
+
+Cat_General
+  Descripcion:
+    Diccionario general de datos que almacena las opciones especificas asociadas 
+    a cada familia registrada en Cat_Tipo_Catalogo. Contiene desde los generos 
+    hasta las categorias de gasto especificas y los nombres de proveedores.
+  Columnas y Tipos de Datos:
+    Id_Catalogo INT PRIMARY KEY IDENTITY(1,1): Identificador unico del valor.
+    Id_Tipo_Catalogo INT FK: Referencia obligatoria a Cat_Tipo_Catalogo.
+    Nombre NVARCHAR(80) NOT NULL: Descripcion textual del elemento asignado.
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Control de tiempo base.
+    Fecha_Modificacion DATETIME2(2): Control de variacion de datos de auditoria.
+    Id_Creador INT NULL: Relacion con el usuario de origen.
+    Id_Modificador INT: Relacion con el usuario de ultima modificacion.
+    Activo BIT DEFAULT 1 NOT NULL: Habilitador operacional del elemento.
+  Sincronizacion y Relaciones:
+    Entrada: Restringida por la clave foranea FK_CatGeneral_TipoCatalogo.
+    Salida: Alimentacion directa a Tbl_Datos_Personales (Genero, DNI), 
+    Tbl_Contacto (Tipo Contacto), Tbl_Detalle_Presupuesto (Categoria de Gasto), 
+    Tbl_Gastos (Tipo Gasto, Proveedor) y Tbl_Aprobaciones (Resultado).
+
+Cat_Monedas
+  Descripcion:
+    Entidad maestra encargada de centralizar la configuracion multidivisa del 
+    sistema. Almacena las especificaciones monetarias internacionales bajo el 
+    estandar ISO para garantizar la correcta homogeneidad financiera de montos.
+  Columnas y Tipos de Datos:
+    Id_Moneda INT PRIMARY KEY IDENTITY(1,1): Identificador interno autogenerado.
+    Codigo_ISO VARCHAR(3) NOT NULL UNIQUE: Codigo internacional unico de tres 
+    caracteres (ej. USD, NIO, EUR, CRC).
+    Nombre_Moneda NVARCHAR(50) NOT NULL: Denominacion completa de la divisa.
+    Simbolo VARCHAR(5) NOT NULL: Caracter grafico representativo (ej. $, C$, €).
+    Activo BIT DEFAULT 1 NOT NULL: Determina si la moneda esta disponible.
+  Sincronizacion y Relaciones:
+    Salida: Su Id_Moneda actua como parametro mandatorio en Tbl_Presupuestos.
+    Cualquier calculo en las vistas validadoras exige la resolucion de este id.
+
+
+
+SECCION 2: ENTIDADES DE PERSONAL, OPERATIVIDAD DE SEGURIDAD Y PERMISOS
+
+
+Tbl_Datos_Personales
+  Descripcion:
+    Repositorio central de informacion demografica de las personas de la firma.
+    Es el nucleo de identidad que antecede e independiza el concepto de usuario.
+  Columnas y Tipos de Datos:
+    Id_Persona INT PRIMARY KEY IDENTITY(1,1): Identificador de la persona.
+    Id_Genero INT FK: Enlace foraneo a Cat_General (Filtro familia de Generos).
+    Primer_Nombre NVARCHAR(50) NOT NULL: Primer nombre obligatorio de la persona.
+    Segundo_Nombre NVARCHAR(50): Segundo nombre opcional de la persona.
+    Primer_Apellido NVARCHAR(50) NOT NULL: Apellido paterno obligatorio.
+    Segundo_Apellido NVARCHAR(50): Apellido materno opcional de la persona.
+    Fecha_Nacimiento DATE: Registro cronologico del nacimiento para perfiles.
+    Id_Tipo_DNI INT FK: Enlace foraneo a Cat_General (Filtro tipo identificacion).
+    DNI VARCHAR(20) NOT NULL UNIQUE: Numero de identificacion unico del ciudadano.
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Estampa temporal de insercion.
+    Fecha_Modificacion DATETIME2(2): Estampa de modificacion de datos personales.
+    Id_Creador INT NULL: Enlace recursivo/cruzado al usuario del sistema.
+    Id_Modificador INT: Enlace al usuario modificador.
+    Id_Estado INT FK: Vinculo relacional hacia el catalogo de estados.
+  Sincronizacion y Relaciones:
+    Entrada: Depende de Cat_General (Id_Genero, Id_Tipo_DNI) y Cat_Estado.
+    Salida: Provee la llave primaria indispensable para instanciar un usuario 
+    en Tbl_Usuarios y registros en la tabla de informacion de contacto.
+
+Tbl_Contacto
+  Descripcion:
+    Tabla relacional subordinada encargada de capturar infinitos canales de 
+    comunicacion asociados de forma directa a una identidad personal especifica 
+    (ej. correos corporativos, telefonos celulares, anexos internos).
+  Columnas y Tipos de Datos:
+    Id_Contacto INT PRIMARY KEY IDENTITY(1,1): Identificador propio del contacto.
+    Id_Persona INT FK: Enlace maestro-detalle obligatorio hacia Tbl_Datos_Personales.
+    Id_Tipo_Contacto INT FK: Tipo de canal tipificado mediante Cat_General.
+    Contacto NVARCHAR(100) NOT NULL: Direccion electronica o cadena numerica.
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Auditoria temporal.
+    Fecha_Modificacion DATETIME2(2): Registro de cambio del canal de contacto.
+    Id_Creador INT NULL: Auditoria de usuario creador.
+    Id_Modificador INT: Auditoria de usuario modificador.
+    Id_Estado INT FK: Estado logico relacional.
+
+Tbl_Roles
+  Descripcion:
+    Matriz de perfiles de operacion que agrupa las responsabilidades dentro de 
+    la jerarquia de control presupuestario de la empresa (ej. Administrador, 
+    Gerente Financiero, Analista Contable).
+  Columnas y Tipos de Datos:
+    Id_Rol INT PRIMARY KEY IDENTITY(1,1): Llave primaria del rol de seguridad.
+    Nombre NVARCHAR(50) NOT NULL UNIQUE: Identificador unico de negocio del perfil.
+    Descripcion NVARCHAR(150): Resumen funcional del rol y sus atribuciones.
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Alta de rol en sistema.
+    Fecha_Modificacion DATETIME2(2): Variacion de metadatos del rol.
+    Id_Creador INT NULL: Track de creacion.
+    Id_Modificador INT: Track de modificacion.
+    Id_Estado INT FK: Estado relacional dependiente de Cat_Estado.
+  Sincronizacion y Relaciones:
+    Salida: Determina la herencia de permisos en Tbl_Permisos_Opciones y la 
+    clasificacion jerarquica obligatoria de los usuarios en Tbl_Usuarios.
+
+Tbl_Usuarios
+  Descripcion:
+    Tabla de credenciales de autenticacion y control de sesiones del sistema. 
+    Representa a las personas con acceso activo a la logica transaccional.
+  Columnas y Tipos de Datos:
+    Id_Usuario INT PRIMARY KEY IDENTITY(1,1): Identificador de cuenta de usuario.
+    Usuario NVARCHAR(50) NOT NULL UNIQUE: Nombre de ingreso unico de la cuenta.
+    Contrasena NVARCHAR(255) NOT NULL: Cadena hash cifrada de la contraseña.
+    Id_Persona INT FK: Clave foranea exclusiva hacia Tbl_Datos_Personales.
+    Id_Rol INT FK: Clave foranea mandatoria hacia el catalogo de Tbl_Roles.
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Alta de credencial.
+    Fecha_Modificacion DATETIME2(2): Reseteo o variacion de contraseña.
+    Id_Creador INT NULL: Referencia de creacion administrativa de usuarios.
+    Id_Modificador INT: Referencia de modificacion de la cuenta.
+    Id_Estado INT FK: Llave de vigencia o bloqueo de cuenta (ej. Suspendido).
+  Sincronizacion y Relaciones:
+    Flujo Cruzado de Auditoria: Al inicializarse el primer usuario, se rompe 
+    la restriccion circular actualizando mediante UPDATE los campos Id_Creador 
+    de los catalogos iniciales. A partir de ahi, todo registro en el sistema 
+    exige obligatoriamente un Id_Usuario valido no nulo en campos de creacion.
+
+Tbl_Permisos_Opciones
+  Descripcion:
+    Matriz de Control de Acceso basado en Roles (RBAC). Almacena de forma 
+    atomica las politicas de creacion, lectura, actualizacion y eliminacion 
+    por cada modulo de la aplicacion vinculada a un rol especifico.
+  Columnas y Tipos de Datos:
+    Id_Permiso INT PRIMARY KEY IDENTITY(1,1): Identificador unico del permiso.
+    Id_Rol INT FK: Referencia de herencia directa hacia Tbl_Roles.
+    Modulo NVARCHAR(50) NOT NULL: Nombre clave del modulo del software.
+    Puede_Crear BIT DEFAULT 0 NOT NULL: Flag de autorizacion para inserts.
+    Puede_Leer BIT DEFAULT 1 NOT NULL: Flag de autorizacion para select-queries.
+    Puede_Actualizar BIT DEFAULT 0 NOT NULL: Flag de autorizacion para updates.
+    Puede_Eliminar BIT DEFAULT 0 NOT NULL: Flag de autorizacion para deletes.
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Auditoria cronologica.
+    Id_Creador INT FK: Usuario administrador que firmo la concesion de privilegios.
+
+
+
+SECCION 3: MODELADO ORGANIZACIONAL Y PLANIFICACION DE ESTRUCTURAS PRESUPUESTARIAS
+
+
+Tbl_Departamentos
+  Descripcion:
+    Unidades administrativas core de la compañia. Funciona como el primer nivel 
+    de agrupamiento de centros de costo y segregacion de techos presupuestarios.
+  Columnas y Tipos de Datos:
+    Id_Departamento INT PRIMARY KEY IDENTITY(1,1): Llave primaria corporativa.
+    Nombre_Departamento NVARCHAR(100) NOT NULL UNIQUE: Nombre oficial de la unidad.
+    Codigo_Softland NVARCHAR(20): Enlace o llave foranea logica hacia el ERP externo.
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Auditoria de creacion.
+    Fecha_Modificacion DATETIME2(2): Modificacion de metadatos de operacion.
+    Id_Creador INT FK: Usuario analista o administrador responsable de dar de alta.
+    Id_Modificador INT: Usuario que modifico.
+    Id_Estado INT FK: Estado operativo de la unidad.
+  Sincronizacion y Relaciones:
+    Salida: Ofrece relacion directa e indivisible de uno a muchos hacia la 
+    tabla de Centros de Costo.
+
+Tbl_Centros_Costo
+  Descripcion:
+    Subdivisiones operativas y contables de un departamento donde se originan, 
+    asignan y consolidan los costos reales incurridos por la organizacion.
+  Columnas y Tipos de Datos:
+    Id_Centro_Costo INT PRIMARY KEY IDENTITY(1,1): Llave primaria del centro.
+    Id_Departamento INT FK: Referencia e integracion con Tbl_Departamentos.
+    Nombre_Centro NVARCHAR(100) NOT NULL: Nombre comercial/operativo del centro.
+    Codigo_Contable NVARCHAR(50) NOT NULL UNIQUE: Cuenta oficial de contabilidad.
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Marcaje cronologico de alta.
+    Fecha_Modificacion DATETIME2(2): Modificacion del codigo contable o nombre.
+    Id_Creador INT FK: Usuario ejecutor responsable de la integracion.
+    Id_Modificador INT: Usuario descriptor del cambio.
+    Id_Estado INT FK: Estado relacional.
+  Sincronizacion y Relaciones:
+    Salida: Es un componente esencial para estructurar las categorias de gasto 
+    en las lineas de detalle de la tabla de planificacion financiera.
+
+Tbl_Presupuestos
+  Descripcion:
+    Cabecera principal que define el plan financiero maestro para un año fiscal 
+    determinado. Establece las directrices macros y la divisa base de la operacion.
+  Columnas y Tipos de Datos:
+    Id_Presupuesto INT PRIMARY KEY IDENTITY(1,1): Llave de cabecera presupuestaria.
+    Anio_Fiscal INT NOT NULL: Año de ejecucion restringido por CHECK (> 2020).
+    Id_Moneda INT FK DEFAULT 1: Clave de divisa conectada directamente a Cat_Monedas.
+    Descripcion NVARCHAR(150): Detalle ejecutivo de los objetivos del presupuesto.
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Estampa de planificacion.
+    Fecha_Modificacion DATETIME2(2): Estampa de reestructuracion macro.
+    Id_Creador INT FK: Usuario financiero de alta (Gerente Financiero).
+    Id_Modificador INT: Usuario financiero modificador.
+    Id_Estado INT FK: Estado macro del presupuesto (ej. Borrador, Aprobado).
+  Sincronizacion y Relaciones:
+    Salida: Es la raiz mandatoria de la cual dependen de forma estricta los 
+    detalles especificos por centros de costo y las solicitudes de aprobacion.
+
+Tbl_Detalle_Presupuesto
+  Descripcion:
+    El corazon transaccional de la planificacion. Almacena las partidas o lineas 
+    especificas de dinero asignado, cruzando de manera univoca un presupuesto, 
+    un centro de costo especifico y una categoria de gasto de la empresa.
+  Columnas y Tipos de Datos:
+    Id_Presupuesto_Detalle INT PRIMARY KEY IDENTITY(1,1): Identificador de partida.
+    Id_Presupuesto INT FK: Vinculo foraneo indisoluble a la cabecera del plan.
+    Id_Centro_Costo INT FK: Vinculo foraneo indisoluble al Centro de Costo ejecutor.
+    Id_Categoria_Gasto INT FK: Clasificacion del egreso mediante Cat_General.
+    Monto_Presupuestado DECIMAL(18,2) NOT NULL: Techo de dinero asignado (> 0).
+    Monto_Ejecutado DECIMAL(18,2) NOT NULL DEFAULT 0.00: Saldo gastado real (> 0).
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Alta de la partida.
+    Fecha_Modificacion DATETIME2(2): Fecha sincronizada automaticamente por el trigger.
+    Id_Creador INT FK: Usuario responsable de la asignacion de fondos inicial.
+    Id_Modificador INT: Usuario de ultima modificacion.
+  Restricciones de Integridad Avanzadas:
+    CONSTRAINT UC_Presupuesto_Detalle UNIQUE (Id_Presupuesto, Id_Centro_Costo, 
+    Id_Categoria_Gasto): Restriccion de clave unica compuesta que impide 
+    duplicar lineas financieras identicas dentro de la misma bolsa contable.
+    CONSTRAINT CK_Ejecutado_Limite CHECK (Monto_Ejecutado < Monto_Presupuestado): 
+    Blindaje a nivel de motor de base de datos que prohibe que el monto ejecutado 
+    sea superior a los fondos remanentes del presupuesto original asignado.
+  Sincronizacion y Relaciones:
+    Salida: Es la tabla clave que es leida y modificada por los triggers en 
+    cada insercion de gastos, y la base sobre la cual se calculan las adendas.
+
+Tbl_Ajustes_Presupuesto
+  Descripcion:
+    Historico controlado de variaciones financieras (Adendas). Registra de forma 
+    auditable todas las ampliaciones o reducciones oficiales de fondos aplicadas 
+    a una partida de detalle sin alterar las transacciones de gastos reales.
+  Columnas y Tipos de Datos:
+    Id_Ajuste INT PRIMARY KEY IDENTITY(1,1): Llave primaria de la adenda.
+    Id_Presupuesto_Detalle INT FK: Enlace foraneo a la linea de detalle afectada.
+    Tipo_Ajuste VARCHAR(15) NOT NULL: Evaluacion obligatoria mediante CHECK de 
+    valores fijos admitidos: INCREMENTO o REDUCCION de forma estricta.
+    Monto_Ajuste DECIMAL(18,2) NOT NULL: Cantidad exacta de la modificacion (> 0).
+    Justificacion NVARCHAR(255) NOT NULL: Documentacion legal o tecnica del cambio.
+    Fecha_Ajuste DATETIME2(2) DEFAULT SYSDATETIME(): Fecha en que se asienta la adenda.
+    Id_Creador INT FK: Usuario gerente financiero que firmo la autorizacion.
+
+
+
+SECCION 4: LOGISTICA DE OPERACIONES, EMISION DE ALERTAS Y LOGS DE AUDITORIA
+
+
+Tbl_Gastos
+  Descripcion:
+    Registro detallado de los egresos y ejecuciones monetarias en tiempo real. 
+    Cualquier transaccion de compra, pago de proveedores o reembolso impacta aqui.
+  Columnas y Tipos de Datos:
+    Id_Gasto INT PRIMARY KEY IDENTITY(1,1): Llave de transaccion del gasto.
+    Id_Presupuesto_Detalle INT FK: Relacion directa a la partida afectada.
+    Id_Tipo_Gasto INT FK: Tipo de operacion monetaria mediante Cat_General.
+    Descripcion_Gasto NVARCHAR(255) NOT NULL: Justificacion del egreso ejecutado.
+    Monto_Gasto DECIMAL(18,2) NOT NULL: Valor numerico real de la operacion (> 0).
+    Fecha_Gasto DATETIME2(2) NOT NULL DEFAULT SYSDATETIME(): Fecha de la factura.
+    Numero_Factura NVARCHAR(50): Codigo fiscal de comprobacion de compra.
+    Id_Proveedor INT FK: Identificador comercial del proveedor (Cat_General).
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Registro del gasto en sistema.
+    Id_Creador INT FK: Analista de presupuestos que digito la transaccion.
+    Id_Estado INT FK: Estado del gasto (ej. Procesado, Pre-aprobado).
+  Mecanismo de Sincronizacion Automatizada (El Trigger):
+    El evento AFTER INSERT de esta tabla desencadena síncronamente la ejecucion 
+    del trigger TR_TblGastos_Control_Presupuesto. El flujo funciona asi:
+    1. Se intercepta la fila insertada desde la tabla logica INSERTED.
+    2. Se extrae el Id_Presupuesto_Detalle y el Monto_Gasto.
+    3. Se consulta Tbl_Detalle_Presupuesto bajo aislamiento transaccional.
+    4. Se calcula el Monto_Ejecutado_Nuevo sumando el gasto al acumulado actual.
+    5. Se evalua contra el Monto_Presupuestado. Si hay sobregiro, se lanza un 
+       RAISERROR y se ejecuta un ROLLBACK TRANSACTION inmediato, cancelando la 
+       factura y protegiendo el dinero.
+    6. Si pasa el control, se ejecuta un UPDATE en Tbl_Detalle_Presupuesto, 
+       asentando el saldo y actualizando Fecha_Modificacion de forma atomica.
+    7. Finalmente se calcula el porcentaje de ejecucion. Si este es igual o 
+       mayor al 85.00%, se realiza un INSERT automatico dentro de Tbl_Alertas.
+
+Tbl_Aprobaciones
+  Descripcion:
+    Bitacora centralizada de aprobaciones y firmas de validez. Implementa un 
+    patron de diseño de herencia condicional esclusiva, permitiendo autorizar o 
+    rechazar tanto presupuestos globales (cabeceras) como gastos individuales.
+  Columnas y Tipos de Datos:
+    Id_Aprobacion INT PRIMARY KEY IDENTITY(1,1): Llave del registro de aprobacion.
+    Id_Presupuesto INT FK NULL: Enlace opcional a la cabecera de planes financieros.
+    Id_Gasto INT FK NULL: Enlace opcional a un gasto especifico del sistema.
+    Id_Usuario_Aprobador INT FK: Enlace al usuario con el rol jerarquico apto.
+    Fecha_Decision DATETIME2(2) DEFAULT SYSDATETIME(): Momento exacto del veredicto.
+    Id_Resultado_Aprobacion INT FK: Clasificador de dictamen (Cat_General).
+    Comentarios NVARCHAR(255): Explicacion detallada del rechazo o aprobacion.
+    Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(): Estampa de auditoria.
+    Id_Creador INT FK: Usuario que asienta la decision.
+  Restricciones de Integridad Avanzadas:
+    CONSTRAINT CK_Entidad_Aprobacion CHECK ((Id_Presupuesto IS NOT NULL AND 
+    Id_Gasto IS NULL) OR (Id_Gasto IS NOT NULL AND Id_Presupuesto IS NULL)):
+    Restriccion logica que prohibe explicitamente la ambiguedad relacional. 
+    Una aprobacion pertenece obligatoriamente a un presupuesto o a un gasto, 
+    pero jamas a ambos de forma simultanea, ni puede quedar huerfana.
+
+Tbl_Alertas
+  Descripcion:
+    Log asincrono de notificaciones de consumo critico generadas automaticamente 
+    por el motor transaccional de la base de datos ante aproximaciones de riesgo.
+  Columnas y Tipos de Datos:
+    Id_Alerta INT PRIMARY KEY IDENTITY(1,1): Identificador de la alerta.
+    Id_Presupuesto_Detalle INT FK: Enlace a la partida especifica en consumo critico.
+    Porcentaje_Consumido DECIMAL(5,2) NOT NULL: Tasa exacta de consumo al momento.
+    Mensaje_Alerta NVARCHAR(255) NOT NULL: Texto descriptivo formateado por el trigger.
+    Fecha_Generada DATETIME2(2) DEFAULT SYSDATETIME(): Marcaje de tiempo automatico.
+    Leida BIT DEFAULT 0 NOT NULL: Flag de visualizacion para tableros del frontend.
+    Id_Estado INT FK: Estado relacional de vigencia (Cat_Estado).
+  Sincronizacion de Flujos de Monitoreo:
+    No requiere intervencion manual del usuario. Es inyectada directamente por el 
+    trigger operativo cuando el consumo acumulado transgrede la barrera del 
+    ochenta y cinco por ciento, sirviendo como cola de mensajeria interna para 
+    el envio de correos o alertas push en la capa cliente.
+
+
+
+FIN DE LA DOCUMENTACION TECNICA OFICIAL - SISTEMA CONTROL PRESUPUESTARIO

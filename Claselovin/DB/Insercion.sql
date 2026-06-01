@@ -1,44 +1,16 @@
--- =========================================================================
+-- 
 -- SISTEMA DE CONTROL PRESUPUESTARIO EMPRESARIAL
 -- SCRIPT DE INSERCIÓN, SIMULACIÓN Y AUDITORÍA FINANCIERA
 USE Presupuesto_Empresarial;
 GO
 
--- =========================================================================
--- REINICIAR ENTORNO TRANSACCIONAL (Orden inverso estricto por FK Constraints)
--- solo si ya las creastes yeris DELETE FROM Tbl_Alertas;
-DELETE FROM Tbl_Aprobaciones;
-DELETE FROM Tbl_Ajustes_Presupuesto;
-DELETE FROM Tbl_Gastos;
-DELETE FROM Tbl_Detalle_Presupuesto;
-DELETE FROM Tbl_Presupuestos;
-DELETE FROM Tbl_Centros_Costo;
-DELETE FROM Tbl_Departamentos;
-DELETE FROM Tbl_Permisos_Opciones;
-
--- Romper dependencias circulares de auditoría temporalmente para limpiar seguridad
-ALTER TABLE Tbl_Datos_Personales DROP CONSTRAINT FK_Persona_Creador;
-ALTER TABLE Tbl_Usuarios DROP CONSTRAINT FK_Usuario_Creador;
-
-DELETE FROM Tbl_Usuarios;
-DELETE FROM Tbl_Contacto;
-DELETE FROM Tbl_Roles;
-DELETE FROM Tbl_Datos_Personales;
-DELETE FROM Cat_General;
-DELETE FROM Cat_Tipo_Catalogo;
-DELETE FROM Cat_Monedas;
-DELETE FROM Cat_Estado;
-GO
-
--- Reestablecer Constraints de Seguridad tras la limpieza masiva
-ALTER TABLE Tbl_Datos_Personales ADD CONSTRAINT FK_Persona_Creador FOREIGN KEY (Id_Creador) REFERENCES Tbl_Usuarios(Id_Usuario);
-ALTER TABLE Tbl_Usuarios ADD CONSTRAINT FK_Usuario_Creador FOREIGN KEY (Id_Creador) REFERENCES Tbl_Usuarios(Id_Usuario);
-GO
 
 
--- =========================================================================
 --  1: CATÁLOGOS PRIMARIOS Y CONFIGURACIÓN MULTIDIVISA
--- =========================================================================
+
+
+
+
 
 INSERT INTO Cat_Estado (Estado, Id_Creador, Activo) VALUES 
 ('Activo', NULL, 1),               -- ID: 1
@@ -86,9 +58,9 @@ INSERT INTO Cat_General (Id_Tipo_Catalogo, Nombre, Id_Creador, Activo) VALUES
 GO
 
 
--- =========================================================================
+-- 
 --  2: ENTIDADES DE PERSONAL, SEGURIDAD Y MATRIZ DE PERMISOS
--- =========================================================================
+-- 
 
 INSERT INTO Tbl_Roles (Nombre, Descripcion, Id_Creador, Id_Estado) VALUES 
 ('Administrador', 'Acceso total al sistema y configuraciones', NULL, 1),         -- ID: 1
@@ -110,19 +82,9 @@ INSERT INTO Tbl_Contacto (Id_Persona, Id_Tipo_Contacto, Contacto, Id_Creador, Id
 GO
 
 INSERT INTO Tbl_Usuarios (Usuario, Contrasena, Id_Persona, Id_Rol, Id_Creador, Id_Estado) VALUES 
-('admin_sys', 'Hash_Secure_Admin_2026', 1, 1, NULL, 1),     -- ID: 1
-('ana_finanzas', 'Hash_Secure_Gerente_2026', 2, 2, 1, 1), -- ID: 2
-('juan_analista', 'Hash_Secure_Analista_2026', 3, 3, 1, 1); -- ID: 3
-GO
-
--- REGULARIZACIÓN DE AUDITORÍA CRUZADA (Track inicial mapeado al Administrador)
-UPDATE Cat_Estado SET Id_Creador = 1;
-UPDATE Cat_Tipo_Catalogo SET Id_Creador = 1;
-UPDATE Cat_General SET Id_Creador = 1;
-UPDATE Tbl_Roles SET Id_Creador = 1;
-UPDATE Tbl_Datos_Personales SET Id_Creador = 1;
-UPDATE Tbl_Contacto SET Id_Creador = 1;
-UPDATE Tbl_Usuarios SET Id_Creador = 1 WHERE Id_Usuario = 1;
+('admin_sys', 'alsndlnas', 1, 1, NULL, 1),     -- ID: 1
+('ana_finanzas', 'jsannas', 2, 2, 1, 1), -- ID: 2
+('juan_analista', 'cajsbsacjb', 3, 3, 1, 1); -- ID: 3
 GO
 
 INSERT INTO Tbl_Permisos_Opciones (Id_Rol, Modulo, Puede_Crear, Puede_Leer, Puede_Actualizar, Puede_Eliminar, Id_Creador) VALUES 
@@ -133,9 +95,9 @@ INSERT INTO Tbl_Permisos_Opciones (Id_Rol, Modulo, Puede_Crear, Puede_Leer, Pued
 GO
 
 
--- =========================================================================
+-- 
 --  3: ESTRUCTURA ORGANIZACIONAL Y PLANIFICACIÓN FINANCIERA MULTIDIVISA
--- =========================================================================
+-- 
 
 INSERT INTO Tbl_Departamentos (Nombre_Departamento, Codigo_Softland, Id_Creador, Id_Estado) VALUES 
 ('Tecnologías de la Informática', 'DEP-TI', 1, 1), -- ID: 1
@@ -150,7 +112,7 @@ INSERT INTO Tbl_Centros_Costo (Id_Departamento, Nombre_Centro, Codigo_Contable, 
 (3, 'Capacitación y Desarrollo', 'CC-RRHH-01', 1, 1);-- ID: 4
 GO
 
--- Planificación General asignada de forma explícita en Dólares (Id_Moneda = 1)
+-- Planificación General asignada de forma explícita en Dólares (Id_Moneda  1)
 INSERT INTO Tbl_Presupuestos (Anio_Fiscal, Id_Moneda, Descripcion, Id_Creador, Id_Estado) VALUES 
 (2026, 1, 'Presupuesto General Corporativo Año 2026', 1, 4); -- ID: 1 (Estado: Aprobado)
 GO
@@ -162,11 +124,11 @@ INSERT INTO Tbl_Detalle_Presupuesto (Id_Presupuesto, Id_Centro_Costo, Id_Categor
 GO
 
 
--- =========================================================================
+-- 
 --  4: OPERACIONES REALES Y AUTOMATIZACIÓN (CONTROL TRANSACCIONAL)
--- =========================================================================
+-- 
 
--- Inserción controlada con tipificación del gasto (Id_Tipo_Gasto: 16 = Factura Directa)
+-- Inserción controlada con tipificación del gasto (Id_Tipo_Gasto: 16  Factura Directa)
 INSERT INTO Tbl_Gastos (Id_Presupuesto_Detalle, Id_Tipo_Gasto, Descripcion_Gasto, Monto_Gasto, Fecha_Gasto, Numero_Factura, Id_Proveedor, Id_Creador, Id_Estado) VALUES 
 (1, 16, 'Pago Mensual Servidores AWS May-2026', 12500.00, '2026-05-25', 'FACT-AWS-992', 13, 3, 4), -- Detalle 1 acumula $12,500.00
 (1, 16, 'Renovación de Licencias IDEs de Desarrollo', 5000.00, '2026-05-28', 'FACT-JB-102', 13, 3, 4);  -- Detalle 1 acumula $17,500.00 (43.75%)
@@ -174,15 +136,15 @@ GO
 
 -- SIMULACIÓN DE DISPARO AUTOMÁTICO DE ALERTA:
 -- Al ingresar este registro, el trigger calculará una ejecución acumulada de $22,000.00 sobre un techo de $25,000.00.
--- Al equivaler al 88.00% (>= 85.00%), el motor escribirá la alerta síncrona de manera inmediata.
+-- Al equivaler al 88.00% (> 85.00%), el motor escribirá la alerta síncrona de manera inmediata.
 INSERT INTO Tbl_Gastos (Id_Presupuesto_Detalle, Id_Tipo_Gasto, Descripcion_Gasto, Monto_Gasto, Fecha_Gasto, Numero_Factura, Id_Proveedor, Id_Creador, Id_Estado) VALUES 
 (2, 16, 'Campaña Social Ads Lanzamiento Q2', 22000.00, '2026-05-29', 'FACT-AC-004', 14, 3, 4);
 GO
 
 
--- =========================================================================
+-- 
 --  5: HISTÓRICO DE AUDITORÍA DE APROBACIONES
--- =========================================================================
+-- 
 
 INSERT INTO Tbl_Aprobaciones (Id_Presupuesto, Id_Gasto, Id_Usuario_Aprobador, Id_Resultado_Aprobacion, Comentarios, Id_Creador) VALUES 
 (1, NULL, 2, 11, 'Presupuesto anual autorizado tras revisión de objetivos de la junta técnica.', 2),
@@ -190,9 +152,9 @@ INSERT INTO Tbl_Aprobaciones (Id_Presupuesto, Id_Gasto, Id_Usuario_Aprobador, Id
 GO
 
 
--- =========================================================================
+-- 
 --  6: VERIFICACIÓN Y AUDITORÍA DE VOLUMETRÍA GLOBAL
--- =========================================================================
+-- 
 
 SELECT 'Estados' AS [Tabla], COUNT(*) AS [Registros Total] FROM Cat_Estado
 UNION ALL
@@ -211,34 +173,4 @@ UNION ALL
 SELECT 'Gastos Transaccionados', COUNT(*) FROM Tbl_Gastos
 UNION ALL
 SELECT 'Alertas Generadas por el Motor', COUNT(*) FROM Tbl_Alertas;
-GO
-
--- CONSULTA ANALÍTICA CONTABLE: Dashboard de control consolidado en tiempo real
-SELECT 
-    D.Id_Presupuesto_Detalle,
-    DEP.Nombre_Departamento AS [Departamento],
-    CC.Nombre_Centro AS [Centro Costo],
-    CG.Nombre AS [Categoría Gasto],
-    VPC.Moneda AS [Divisa Asignada],
-    D.Monto_Presupuestado AS [Presupuesto Asignado],
-    D.Monto_Ejecutado AS [Total Ejecutado Automático],
-    (D.Monto_Presupuestado - D.Monto_Ejecutado) AS [Fondo Disponible],
-    CAST(((D.Monto_Ejecutado / D.Monto_Presupuestado) * 100.00) AS DECIMAL(5,2)) AS [% Ejecución]
-FROM Tbl_Detalle_Presupuesto D
-INNER JOIN Tbl_Centros_Costo CC ON D.Id_Centro_Costo = CC.Id_Centro_Costo
-INNER JOIN Tbl_Departamentos DEP ON CC.Id_Departamento = DEP.Id_Departamento
-INNER JOIN Cat_General CG ON D.Id_Categoria_Gasto = CG.Id_Catalogo
-INNER JOIN Vw_Presupuestos_Consolidados VPC ON D.Id_Presupuesto = VPC.Id_Presupuesto;
-GO
-
--- CONSULTA DE ALERTAS: Log de eventos críticos arrojados por el Trigger
-SELECT 
-    A.Id_Alerta,
-    CC.Nombre_Centro AS [Centro de Costo Afectado],
-    A.Porcentaje_Consumido AS [% Comprometido],
-    A.Mensaje_Alerta AS [Log Notificación Engine],
-    A.Fecha_Generada
-FROM Tbl_Alertas A
-INNER JOIN Tbl_Detalle_Presupuesto DP ON A.Id_Presupuesto_Detalle = DP.Id_Presupuesto_Detalle
-INNER JOIN Tbl_Centros_Costo CC ON DP.Id_Centro_Costo = CC.Id_Centro_Costo;
 GO
