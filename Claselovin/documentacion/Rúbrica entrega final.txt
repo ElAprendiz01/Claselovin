@@ -34,4 +34,5 @@ Proyecto
 2. C# + Clean Architecture
 3. .NET Core 9 o 10
 4. API con doble plataforma (React + Vite, Reac Native Móvil)
-5. Entrega de APK
+5. Entrega de APK.
+inte.
