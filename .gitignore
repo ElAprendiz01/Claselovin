@@ -5,6 +5,7 @@ Thumbs.db
 .DS_Store
 *.tmp
 *.log
+.vs
 
 # --- Archivos Markdown ---
 # Esto evita que se suban archivos .md (Nota: README.md seguirá apareciendo si ya estaba subido)
