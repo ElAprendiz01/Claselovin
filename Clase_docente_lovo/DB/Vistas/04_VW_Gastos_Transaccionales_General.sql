@@ -19,7 +19,10 @@ SELECT
     E.Estado AS Estado_Gasto,
     G.Id_Estado AS Id_Estado_Gasto,
     G.Id_Proveedor,
-    G.Id_Tipo_Gasto
+    G.Id_Tipo_Gasto,
+    DP.Id_Presupuesto,
+    G.Id_Creador,
+    G.Fecha_Creacion
 FROM Tbl_Gastos G (NOLOCK)
 INNER JOIN Tbl_Detalle_Presupuesto DP (NOLOCK) ON G.Id_Presupuesto_Detalle = DP.Id_Presupuesto_Detalle
 INNER JOIN Tbl_Presupuestos P (NOLOCK) ON DP.Id_Presupuesto = P.Id_Presupuesto

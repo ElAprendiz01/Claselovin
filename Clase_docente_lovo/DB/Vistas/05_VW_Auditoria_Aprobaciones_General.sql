@@ -13,7 +13,9 @@ SELECT
     A.Comentarios,
     CG_RES.Nombre AS Resultado_Aprobacion,
     A.Id_Usuario_Aprobador,
-    A.Id_Resultado_Aprobacion
+    A.Id_Resultado_Aprobacion,
+    A.Fecha_Creacion,
+    A.Id_Creador
 FROM Tbl_Aprobaciones A (NOLOCK)
 INNER JOIN Tbl_Usuarios U (NOLOCK) ON A.Id_Usuario_Aprobador = U.Id_Usuario
 INNER JOIN Tbl_Datos_Personales P (NOLOCK) ON U.Id_Persona = P.Id_Persona

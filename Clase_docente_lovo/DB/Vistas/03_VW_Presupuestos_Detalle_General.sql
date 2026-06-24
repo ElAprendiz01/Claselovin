@@ -23,7 +23,11 @@ SELECT
     DP.Monto_Presupuestado,
     DP.Monto_Ejecutado,
     (DP.Monto_Presupuestado - DP.Monto_Ejecutado) AS Saldo_Disponible,
-    P.Id_Estado AS Id_Estado_Presupuesto
+    P.Id_Estado AS Id_Estado_Presupuesto,
+    DP.Id_Creador,
+    DP.Id_Modificador,
+    DP.Fecha_Creacion,
+    DP.Fecha_Modificacion
 FROM Tbl_Detalle_Presupuesto DP (NOLOCK)
 INNER JOIN Tbl_Presupuestos P (NOLOCK) ON DP.Id_Presupuesto = P.Id_Presupuesto
 INNER JOIN Tbl_Centros_Costo CC (NOLOCK) ON DP.Id_Centro_Costo = CC.Id_Centro_Costo
