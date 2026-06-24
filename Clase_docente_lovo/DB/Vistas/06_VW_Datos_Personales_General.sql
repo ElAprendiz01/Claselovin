@@ -18,7 +18,11 @@ SELECT
     G_GEN.Nombre AS Genero,
     P.Fecha_Nacimiento,
     P.Id_Estado,
-    E.Estado AS Nombre_Estado
+    E.Estado AS Nombre_Estado,
+    P.Id_Creador,
+    P.Id_Modificador,
+    P.Fecha_Creacion,
+    P.Fecha_Modificacion
 FROM Tbl_Datos_Personales P (NOLOCK)
 INNER JOIN Cat_General G_DNI (NOLOCK) ON P.Id_Tipo_DNI = G_DNI.Id_Catalogo
 INNER JOIN Cat_General G_GEN (NOLOCK) ON P.Id_Genero = G_GEN.Id_Catalogo
