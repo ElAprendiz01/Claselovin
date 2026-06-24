@@ -1,7 +1,7 @@
--- =========================================================================
+-- 
 -- SISTEMA DE CONTROL PRESUPUESTARIO EMPRESARIAL
 -- ARQUITECTURA DE BASE DE DATOS OPTIMIZADA 
--- =========================================================================
+-- 
 
 CREATE DATABASE Presupuesto_Empresarial;
 GO
@@ -9,9 +9,9 @@ GO
 USE Presupuesto_Empresarial;
 GO
 
--- =========================================================================
+-- 
 -- 1. MAESTROS, CATÁLOGOS Y MONEDAS (ESTRUCTURAS MADRE)
--- =========================================================================
+-- 
 
 CREATE TABLE Cat_Estado (
     Id_Estado INT PRIMARY KEY IDENTITY(1,1),
@@ -57,9 +57,9 @@ CREATE TABLE Cat_Monedas (
 );
 GO
 
--- =========================================================================
+-- 
 -- 2. ENTIDADES DE PERSONAL Y SEGURIDAD
--- =========================================================================
+-- 
 
 CREATE TABLE Tbl_Datos_Personales (
     Id_Persona INT PRIMARY KEY IDENTITY(1,1),
@@ -135,9 +135,9 @@ CREATE TABLE Tbl_Permisos_Opciones (
 );
 GO
 
--- =========================================================================
+-- 
 -- 3. ESTRUCTURA ORGANIZACIONAL Y MODELO PRESUPUESTARIO
--- =========================================================================
+-- 
 
 CREATE TABLE Tbl_Departamentos (
     Id_Departamento INT PRIMARY KEY IDENTITY(1,1),
@@ -166,7 +166,7 @@ GO
 
 CREATE TABLE Tbl_Presupuestos (
     Id_Presupuesto INT PRIMARY KEY IDENTITY(1,1),
-    Anio_Fiscal INT NOT NULL CONSTRAINT CK_Anio_Fiscal CHECK (Anio_Fiscal >= 2020),
+    Anio_Fiscal INT NOT NULL CONSTRAINT CK_Anio_Fiscal CHECK (Anio_Fiscal > 2020),
     Id_Moneda INT CONSTRAINT FK_Presupuestos_Moneda REFERENCES Cat_Monedas(Id_Moneda) DEFAULT 1, 
     Descripcion NVARCHAR(150),
     Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(),
@@ -183,13 +183,13 @@ CREATE TABLE Tbl_Detalle_Presupuesto (
     Id_Centro_Costo INT CONSTRAINT FK_Detalle_CentroCosto REFERENCES Tbl_Centros_Costo(Id_Centro_Costo),
     Id_Categoria_Gasto INT CONSTRAINT FK_Detalle_CategoriaGasto REFERENCES Cat_General(Id_Catalogo), 
     Monto_Presupuestado DECIMAL(18,2) NOT NULL CONSTRAINT CK_Monto_Presupuesto CHECK (Monto_Presupuestado > 0),
-    Monto_Ejecutado DECIMAL(18,2) NOT NULL DEFAULT 0.00 CONSTRAINT CK_Monto_Ejecutado CHECK (Monto_Ejecutado >= 0),
+    Monto_Ejecutado DECIMAL(18,2) NOT NULL DEFAULT 0.00 CONSTRAINT CK_Monto_Ejecutado CHECK (Monto_Ejecutado > 0),
     Fecha_Creacion DATETIME2(2) DEFAULT SYSDATETIME(),
     Fecha_Modificacion DATETIME2(2),
     Id_Creador INT CONSTRAINT FK_Detalle_Creador REFERENCES Tbl_Usuarios(Id_Usuario) NOT NULL,
     Id_Modificador INT,
     CONSTRAINT UC_Presupuesto_Detalle UNIQUE (Id_Presupuesto, Id_Centro_Costo, Id_Categoria_Gasto),
-    CONSTRAINT CK_Ejecutado_Limite CHECK (Monto_Ejecutado <= Monto_Presupuestado)
+    CONSTRAINT CK_Ejecutado_Limite CHECK (Monto_Ejecutado < Monto_Presupuestado)
 );
 GO
 
@@ -205,9 +205,9 @@ CREATE TABLE Tbl_Ajustes_Presupuesto (
 );
 GO
 
--- =========================================================================
+-- 
 -- 4. OPERACIONES, LOGÍSTICA DE CONTROL Y LOGS
--- =========================================================================
+-- 
 
 CREATE TABLE Tbl_Gastos (
     Id_Gasto INT PRIMARY KEY IDENTITY(1,1),
@@ -237,7 +237,8 @@ CREATE TABLE Tbl_Aprobaciones (
     CONSTRAINT CK_Entidad_Aprobacion CHECK (
         (Id_Presupuesto IS NOT NULL AND Id_Gasto IS NULL) OR 
         (Id_Gasto IS NOT NULL AND Id_Presupuesto IS NULL)
-    )O
+		)
+    
 );
 GO
 
