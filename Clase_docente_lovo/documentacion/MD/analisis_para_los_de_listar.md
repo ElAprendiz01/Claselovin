@@ -142,17 +142,12 @@ Para los catálogos simples de pocos campos, no es necesario crear vistas adicio
 
 ---
 
-## 3. Ejemplo Estándar de Implementación de SP Listar/Filtrar
+## 3. Ejemplo Estándar de Implementación de SP Listar
 
-A continuación se muestra la estructura recomendada para un SP de tipo Filtrar que consume una vista:
+A continuación se muestra la estructura recomendada para un SP de tipo Listar que consume una vista:
 
 ```sql
-CREATE OR ALTER PROCEDURE sp_Tbl_Usuarios_Filtrar
-(
-    @SearchTerm VARCHAR(50) = NULL,
-    @Id_Usuario INT = NULL,
-    @Id_Rol INT = NULL
-)
+CREATE OR ALTER PROCEDURE sp_Tbl_Usuarios_Listar
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -171,20 +166,7 @@ BEGIN
         Fecha_Nacimiento,
         Estado_Usuario,
         Id_Estado_Usuario
-    FROM VW_Usuarios_Personal_General (NOLOCK)
-    WHERE (
-        @SearchTerm IS NULL
-        OR Usuario LIKE '%' + @SearchTerm + '%'
-        OR Nombre_Completo LIKE '%' + @SearchTerm + '%'
-        OR Nombre_Rol LIKE '%' + @SearchTerm + '%'
-        OR (
-            TRY_CAST(@SearchTerm AS INT) IS NOT NULL 
-            AND Id_Usuario = TRY_CAST(@SearchTerm AS INT)
-        )
-    )
-    AND (@Id_Usuario IS NULL OR Id_Usuario = @Id_Usuario)
-    AND (@Id_Rol IS NULL OR Id_Rol = @Id_Rol)
-    OPTION (RECOMPILE);
+    FROM VW_Usuarios_Personal_General (NOLOCK);
 END;
 GO
 ```
