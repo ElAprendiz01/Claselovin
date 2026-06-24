@@ -16,7 +16,10 @@ SELECT
     P.Anio_Fiscal,
     CC.Nombre_Centro,
     D.Nombre_Departamento,
-    E.Estado AS Estado_Gasto
+    E.Estado AS Estado_Gasto,
+    G.Id_Estado AS Id_Estado_Gasto,
+    G.Id_Proveedor,
+    G.Id_Tipo_Gasto
 FROM Tbl_Gastos G (NOLOCK)
 INNER JOIN Tbl_Detalle_Presupuesto DP (NOLOCK) ON G.Id_Presupuesto_Detalle = DP.Id_Presupuesto_Detalle
 INNER JOIN Tbl_Presupuestos P (NOLOCK) ON DP.Id_Presupuesto = P.Id_Presupuesto

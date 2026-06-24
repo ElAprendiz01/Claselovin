@@ -12,7 +12,9 @@ SELECT
     D.Nombre_Departamento,
     D.Codigo_Softland AS Codigo_Depto,
     E_CC.Estado AS Estado_Centro,
-    E_D.Estado AS Estado_Depto
+    E_D.Estado AS Estado_Depto,
+    CC.Id_Estado AS Id_Estado_Centro,
+    D.Id_Estado AS Id_Estado_Depto
 FROM Tbl_Centros_Costo CC (NOLOCK)
 INNER JOIN Tbl_Departamentos D (NOLOCK) ON CC.Id_Departamento = D.Id_Departamento
 INNER JOIN Cat_Estado E_CC (NOLOCK) ON CC.Id_Estado = E_CC.Id_Estado

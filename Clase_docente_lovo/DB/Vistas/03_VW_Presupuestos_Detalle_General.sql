@@ -22,7 +22,8 @@ SELECT
     CG.Nombre AS Categoria_Gasto,
     DP.Monto_Presupuestado,
     DP.Monto_Ejecutado,
-    (DP.Monto_Presupuestado - DP.Monto_Ejecutado) AS Saldo_Disponible
+    (DP.Monto_Presupuestado - DP.Monto_Ejecutado) AS Saldo_Disponible,
+    P.Id_Estado AS Id_Estado_Presupuesto
 FROM Tbl_Detalle_Presupuesto DP (NOLOCK)
 INNER JOIN Tbl_Presupuestos P (NOLOCK) ON DP.Id_Presupuesto = P.Id_Presupuesto
 INNER JOIN Tbl_Centros_Costo CC (NOLOCK) ON DP.Id_Centro_Costo = CC.Id_Centro_Costo
