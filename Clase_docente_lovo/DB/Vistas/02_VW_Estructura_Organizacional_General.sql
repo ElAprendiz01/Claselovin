@@ -14,7 +14,11 @@ SELECT
     E_CC.Estado AS Estado_Centro,
     E_D.Estado AS Estado_Depto,
     CC.Id_Estado AS Id_Estado_Centro,
-    D.Id_Estado AS Id_Estado_Depto
+    D.Id_Estado AS Id_Estado_Depto,
+    CC.Id_Creador,
+    CC.Id_Modificador,
+    CC.Fecha_Creacion,
+    CC.Fecha_Modificacion
 FROM Tbl_Centros_Costo CC (NOLOCK)
 INNER JOIN Tbl_Departamentos D (NOLOCK) ON CC.Id_Departamento = D.Id_Departamento
 INNER JOIN Cat_Estado E_CC (NOLOCK) ON CC.Id_Estado = E_CC.Id_Estado
