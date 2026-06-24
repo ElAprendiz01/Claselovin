@@ -1,0 +1,83 @@
+Tema del proyecto
+	
+
+
+1. Antecedentes: Evolución de la Gestión de Presupuestos Empresariales
+
+A. Mecanismos Tradicionales versus Evolución Tecnológica
+
+Planificar el dinero en una empresa siempre ha sido un dolor de cabeza, pero la forma de enfrentar este reto ha cambiado por completo gracias a la tecnología. No estamos hablando solo de cambiar un cuaderno por una computadora, sino de un cambio radical en cómo los negocios cuidan sus recursos financieros. Para entender por qué se va a  construir este software, es fundamental mirar cómo colapsaban los métodos del pasado, a continuación más detalles.
+
+Antes de la llegada de las computadoras, las oficinas dependían del papel, la tinta y la memoria de las personas. Los contadores pasaban horas arrastrando el lápiz sobre enormes libros contables para registrar cada movimiento mediante partida doble. Este método tenía un enemigo mortal: el retraso de la información. Un gerente se enteraba de que su departamento se había quedado sin dinero semanas después de que el gasto real ya había ocurrido. Era como manejar un auto mirando únicamente el espejo retrovisor; las decisiones siempre llegaban tarde y no había forma de detener un impacto financiero en el momento exacto en que se cometía el error.
+
+Cuando llegaron las primeras computadoras de oficina, las empresas pensaron que habían encontrado la solución definitiva con las hojas de cálculo de Microsoft Excel o Lotus 1-2-3 año 1983 El trabajo matemático se volvió veloz, pero se abrió una caja de Pandora en cuanto a la seguridad y orden de los datos. Nacieron las islas de información. En lugar de un presupuesto unificado, cada jefe de área guardaba su propio archivo Excel en su computadora, modificaba las fórmulas a su antojo y mandaba versiones desactualizadas por correo electrónico. Al no existir un registro centralizado, cualquiera podía alterar un número, cometer un error de dedo en una celda o borrar un dato clave sin dejar rastro de quién lo hizo. Un simple error manual en una fórmula terminaba por distorsionar el presupuesto de corporaciones millonarias enteras o bien pequeñas industrias que podían adquirir estos equipos.
+
+Hoy en día, las organizaciones medianas y grandes no pueden sobrevivir con archivos sueltos; necesitan bases de datos centralizadas como SQL Server conectadas a sistemas de planificación de recursos, aunque se maneja mucho lo que es excel en la actualidad muchas empresas tienen sus movimientos en bases de datos que bien son xslx o csv, La verdadera revolución aquí es que el control financiero que dejó de ser reactivo y pasó a ser preventivo. los sistemas se comenzaron a desarrollar con el fin de no limitar a registrar en qué se gastó el dinero, sino que a cuidar los fondos en tiempo real. Si un empleado intenta registrar una compra que sobrepasa el límite asignado para su área, los softwares  detendrá la transacción inmediatamente, bloqueando el movimiento antes de que el dinero salga de la cuenta bancaria de la empresa, o bien creando la alerta antes de hacer la transacción
+
+B. Manejo de Datos: Roles y Jerarquías Empresariales
+
+En el día a día de una corporación, el dinero no puede estar al alcance de todos ni manejarse bajo los mismos permisos. Existe una regla de oro en el control interno llamada segregación de funciones, que básicamente dicta que quien diseña el presupuesto no puede ser el mismo que gasta el dinero ni el mismo que audita las cuentas. Por eso, los datos financieros se estructuran como una pirámide de responsabilidades claras.
+
+En la punta de la pirámide están los directores financieros. Ellos miran el negocio desde una perspectiva macro. No entran al sistema a capturar facturas del día a día; su rol consiste en analizar el rumbo económico de la empresa, fijar los límites máximos de dinero que la compañía puede gastar en el año y aprobar las metas de rentabilidad que esperan los inversionistas.
+
+En el medio de la estructura se encuentran los gerentes de cada departamento. Ellos viven la realidad operativa de sus áreas y son los encargados de armar las propuestas de presupuesto para sus equipos. Tienen el poder y la responsabilidad de justificar por qué necesitan cierta cantidad de dinero y, dentro del sistema, cuentan con permisos para solicitar movimientos de saldos entre sus cuentas o pedir ampliaciones de capital cuando surge una emergencia justificada.
+
+En la base operativa están los analistas, compradores y asistentes contables. Ellos son el motor transaccional de la empresa. Su interacción con el software consiste puramente en consumir el presupuesto que los niveles superiores ya aprobaron. Lo hacen creando órdenes de compra, capturando facturas de proveedores y generando registros de pago. El sistema les permite operar con libertad dentro de sus límites, pero les impide de manera absoluta modificar los techos financieros o alterar las reglas del juego.
+
+C. Conceptos Únicos de la Evolución Industrial
+
+La evolución de los negocios y el software ha madurado tanto que dio origen a conceptos técnicos y metodologías obligatorias que los sistemas deben de tener sus responsabilidades bien definidas para evitar fugas y malas manipulaciones.
+
+El primer concepto clave es el presupuesto base cero. Tradicionalmente, las empresas tomaban el presupuesto del año anterior y simplemente le sumaban un porcentaje por flojera o por inflación. El presupuesto base cero rompe con ese vicio. Cada vez que inicia un año fiscal, el contador de todas las áreas se limpia y arranca en cero. Cada jefe de departamento tiene que justificar desde el primer centavo cada gasto que planea hacer, obligando a tu sistema a ser una plataforma capaz de almacenar argumentos, desgloses detallados y revisiones minuciosas de cada partida.
+
+El segundo concepto es el linaje de datos y la trazabilidad. para eso el siguiente panorama: un auditor externo entra a revisar las finanzas y encuentra que el saldo de una cuenta no cuadra. aquí es donde entra el software que debe tener la capacidad técnica de tomar ese número final y desarmarlo hacia atrás, mostrando de forma cronológica cada transferencia, cada factura y cada ajuste que alteró ese dinero desde que el presupuesto fue aprobado originalmente. Es la muerte definitiva de los archivos de Excel anónimos.
+
+El tercer concepto son los flujos de aprobación automatizados. Esto es lo que jubila para siempre a las firmas físicas en hojas de papel que se perdían en los escritorios. Cuando un usuario de nivel operativo captura un gasto fuerte, el software evalúa el monto, revisa la categoría del gasto y, de manera inteligente, dispara una alerta al jefe directo o al director financiero correspondiente para que dé su visto bueno digital, agilizando la operación sin perder ni un milímetro de control.
+
+como siguiente paso en la historia de los antecedente del ambito tenemos lo que son los pro y loc contras al usar los software que se han venido desarrollando a la larga de la evolución tecnológica
+
+Para la empresa, el beneficio es inmediato: visibilidad absoluta del flujo de caja en tiempo real, eliminación de procesos manuales que quitan tiempo y un blindaje total contra fraudes gracias a las alertas automáticas del sistema. Sin embargo, el gran reto es la resistencia humana. Si el software que se diseña es tosco, confuso o demasiado rígido, los empleados buscan las formas de saltárselo, lo que arruinaría una inversión económica alta en desarrollo de tecnología, aquí es donde las empresas también invierten en lo que son las capacitaciones de los empleados para asegurar un buen manejo de las nuevas integraciones.
+
+Para los empleados individuales, el sistema es un arma de doble filo. Por un lado, les da autonomía, ya que la aplicación móvil o web les muestra exactamente cuánto dinero tienen disponible para operar su departamento sin tener que estar llamando a contabilidad a preguntar. Por otro lado, les quita la llamada autonomía informal. En un sistema transparente, ya no hay espacio para el yo no sabía o se me olvidó registrarlo; cualquier ineficiencia, retraso o error humano queda grabado con nombre y fecha, elevando el nivel de exigencia y responsabilidad de cada usuario.
+
+para darle mas énfasis vamos a entrar en lo que son registros histórico reales de como se han dado esto antecedente en la vida real, tanto como internacional y nacionales:
+
+ El caso de JP Morgan y el "Lobo de Londres" (2012)En 2012, una estrategia de inversión de JP Morgan Chase falló estrepitosamente, acumulando más de 6,000 millones de dólares en pérdidas comerciales luego de que un analista configurara incorrectamente un modelo de riesgo en Excel al copiar y pegar datos manualmente entre hojas de cálculo. El error matemático crítico ocurrió dentro del modelo de Valor en Riesgo (VaR), donde se aplicó una fórmula que dividía los datos por la suma de dos tasas de riesgo en lugar de calcular su promedio exacto. Esto provocó que el sistema subestimara drásticamente el riesgo real del portafolio operativo, permitiendo a los operadores seguir tomando posiciones masivas y destructivas en derivados financieros antes de que la gerencia detectara el fallo de control interno, en la siguiente url podemos ver con mas detalle la noticia ; https://www.henricodolfing.ch/en/case-study-18-how-excel-errors-and-risk-oversights-cost-jp-morgan-6-billion/
+
+
+2. El caso de la hipotecaria Fannie Mae (2003)En octubre de 2003, la gigante estadounidense de financiamiento hipotecario Fannie Mae se vio obligada a corregir públicamente sus resultados financieros del tercer trimestre debido a un error de cálculo manual detectado en una de sus hojas de cálculo corporativas. El fallo informático se originó al intentar implementar a contrarreloj una nueva y compleja norma de contabilidad para registrar compromisos de compra de viviendas y evaluarlos a precio de mercado. Un contador de la firma utilizó una fórmula equivocada en Excel, lo que provocó una distorsión que subestimó el patrimonio neto de los accionistas por 1,100 millones de dólares; la filtración inicial de este ajuste desató el pánico financiero, provocando el desplome inmediato de sus acciones en casi un 6% en la bolsa de valores.Enlace de verificación:Puedes comprobar la noticia original de la época publicada por el Reporte Informativo de The New York Times, el siguiente enlace contine mas infirmacion ; https://www.nytimes.com/2003/10/30/business/fannie-mae-corrects-mistakes-in-results.html
+
+En 2008, la corporación multinacional alemana Siemens AG se declaró culpable ante las autoridades de los Estados Unidos y Europa por mantener una estructura de contabilidad descentralizada y paralela que ocultaba fallas críticas de control interno. Al no contar con un sistema centralizado de base de datos que validara y auditara los fondos en tiempo real, empleados de la compañía lograron desviar más de 1,300 millones de dólares utilizando presupuestos informales, facturas falsas y hojas de cálculo para pagar sobornos a funcionarios públicos a nivel mundial. El caso terminó con una multa histórica de 1,600 millones de dólares y obligó a la empresa a implementar bases de datos centralizadas con estrictos sistemas de control preventivo y trazabilidad
+https://www.justice.gov/archive/opa/pr/2008/December/08-crm-1105.html
+	
+Registros Históricos Nacionales
+
+Cemex: Control presupuestario y logístico en tiempo real con "Cemex Go"El problema original: La cementera multinacional lidiaba con la dispersión de información. Las asignaciones de dinero para el transporte y los despachos de concreto dependían de llamadas y correos informales, lo que generaba cobros excesivos de fletes y desvíos no autorizados de material.Cómo ayudó el sistema: La empresa lanzó la plataforma centralizada Cemex Go. Este software conecta todos los pedidos y despachos a una sola base de datos en tiempo real. El sistema evalúa la disponibilidad presupuestaria del cliente, las rutas asignadas y los límites de gastos antes de liberar un camión. Al eliminar las hojas de cálculo sueltas e integrar flujos de trabajo cerrados, erradicaron las fugas por fraude logístico y optimizaron sus inversiones operativas globales.
+
+https://www.cemex.com/w/cemex-completes-deployment-of-cemex-go-with-customers-worldwide
+
+
+
+Para superar el histórico retraso en la ejecución de obras públicas y erradicar los cuellos de botella generados por la autorización manual de fondos, el Ministerio de Hacienda y Crédito Público (MHCP) completó la transición hacia una infraestructura financiera completamente digital. A través de la implementación obligatoria del Sistema Integrado de Gestión Administrativa y Financiera (SIGAF), el gobierno centralizó las operaciones presupuestarias, contables y de tesorería del Estado en una sola base de datos relacional. Esta automatización de los flujos de trabajo permitió que los gerentes institucionales gestionaran techos presupuestarios y liberaran cuotas de pago en línea de forma inmediata, eliminando el trasbordo físico de facturas y firmas de soporte hacia Managua.
+https://www.el19digital.com/files/notas/source/2016/00-FEBRERO/00-Del%2015%20al%2021%20Febrero/INFORME%20DEL%20PRESIDENTE.%20GESTION%202015%20(10Feb16).docx
+
+Control estricto y auditoría del presupuesto de las alcaldías locales (Caso 6)Como una medida radical para frenar las ineficiencias de los presupuestos inerciales y eliminar los riesgos de malversación hormiga en los municipios del país, el Poder Ejecutivo retiró la autonomía financiera que gestionaban de forma descentralizada las 153 alcaldías de Nicaragua. Bajo el nuevo esquema, todas las finanzas públicas municipales, los procesos de contrataciones, las planillas y las asignaciones de fondos para proyectos locales pasaron a estar bajo el control administrativo de la Procuraduría General de la República (PGR). Esta reestructuración obliga a que cada partida de gasto se valide y autorice de manera preventiva a través de una base de datos centralizada de fiscalización, impidiendo que los gobiernos locales ejecuten fondos de manera discrecional o sin una justificación de costo real.
+
+https://confidencial.digital/nacion/otorgan-poder-a-pgj-para-controlar-finanzas-y-contrataciones-de-las-alcaldias/
+
+
+PREGUNTAS
+¿COMO AYUDARIA UN SISTEMA A MEJORAR EL RENDIMIENTO DEL FLUJO DEL DINERO DE UNA EMPRESA ESTE SISTEMA ?
+
+¿QUE BENEFICIOS TENDRAN AL USAR UN SISTEMA COMO ESTE ?
+
+¿QUE MEDIDA DEBE DE TOMAR LA EMPRESA PARA USAR ESTE PROYETO A SU FAVOR ?
+
+¿  N COMO VA A MIIGAR LAS PROBELMATICAS DE PLANIFICACION Y REDISTRIBUCION DE INVERCIONES ?
+
+
+
+
+
+
+3. Objetivos (1 general + 3 específicos)ss
