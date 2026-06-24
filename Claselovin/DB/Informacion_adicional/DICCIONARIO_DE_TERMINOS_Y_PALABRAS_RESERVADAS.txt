@@ -1,0 +1,436 @@
+
+DICCIONARIO DE TERMINOS Y PALABRAS RESERVADAS T-SQL - PROYECTO PRESUPUESTARIO
+
+
+LISTA GENERAL DE PALABRAS RESERVADAS, TIPOS DE DATOS Y COMANDOS UTILIZADOS
+  ALTER
+  ADD
+  AND
+  BIT
+  CHECK
+  CONSTRAINT
+  CREATE
+  DATABASE
+  DATE
+  DATETIME2
+  DECIMAL
+  DEFAULT
+  FOREIGN KEY
+  GO
+  IDENTITY
+  IN
+  INT
+  IS
+  NOT
+  NVARCHAR
+  NULL
+  OR
+  PRIMARY KEY
+  REFERENCES
+  SYSDATETIME
+  TABLE
+  UNIQUE
+  USE
+  VARCHAR
+
+
+
+GLOSARIO COMPLETO Y EXPLICACION DE USO EN EL PROYECTO
+
+
+ALTER
+  Concepto: Comando DDL que modifica la estructura de un objeto existente dentro
+  de la base de datos sin necesidad de borrarlo y crearlo de nuevo.
+  Uso en el Proyecto: Se utiliza para agregar restricciones de clave foranea de
+  forma diferida en las tablas Tbl_Datos_Personales y Tbl_Usuarios, rompiendo el
+  bloqueo de dependencia circular en el momento del arranque del esquema.
+
+ADD
+  Concepto: Palabra clave complementaria que se utiliza en conjunto con comandos
+  como ALTER para especificar la adicion de una nueva columna o restriccion.
+  Uso en el Proyecto: Se emplea explicitamente para inyectar los Constraints de
+  tipo FOREIGN KEY encargados de auditar la creacion de cuentas y perfiles.
+
+AND
+  Concepto: Operador logico booleano que conecta dos o mas condiciones evaluadas
+  dentro de un filtro, requiriendo que todas sean verdaderas para validar la fila.
+  Uso en el Proyecto: Se usa en las restricciones CHECK de Tbl_Aprobaciones para
+  validar las reglas excluyentes de evaluacion de un presupuesto o un gasto.
+
+BIT
+  Concepto: Tipo de dato numerico entero que solo acepta valores 1, 0 o NULL,
+  actuando como la representacion nativa de valores booleanos en SQL Server.
+  Uso en el Proyecto: Define banderas de habilitacion logica como Activo en los
+  catalogos y las columnas de matriz de permisos de seguridad como Puede_Crear.
+
+CHECK
+  Concepto: Restriccion de integridad logica que evalua los datos antes de ser
+  asentados, rechazando cualquier fila que no cumpla una condicion dada.
+  Uso en el Proyecto: Es la linea de defensa que valida que los montos sean
+  mayores a cero, que el año fiscal sea valido y que las adendas no desborden.
+
+CONSTRAINT
+  Concepto: Palabra clave que define explicitamente una regla o restriccion de
+  integridad asignandole un identificador propio dentro de la base de datos.
+  Uso en el Proyecto: Se utiliza para rotular cada regla con prefijos claros
+  como FK, CK o UQ, permitiendo capturar errores con nombres legibles en el ERP.
+
+CREATE
+  Concepto: Comando DDL fundamental que inicializa de forma fisica la existencia
+  de un nuevo objeto estructural en el servidor, como bases de datos o tablas.
+  Uso en el Proyecto: Es el bloque de construccion inicial para instanciar la
+  base de datos empresarial y las catorce tablas del modelo de datos corporativo.
+
+DATABASE
+  Concepto: Palabra clave que especifica que el objeto a crearse o manipularse
+  dentro del servidor corresponde a un contenedor global de archivos de datos.
+  Uso en el Proyecto: Acompaña al comando CREATE para reservar el espacio fisico
+  y logico que administrara todo el entorno de Presupuesto_Empresarial.
+
+DATE
+  Concepto: Tipo de dato cronologico optimizado que almacena de forma exclusiva
+  el año, mes y dia, omitiendo por completo el registro de la hora.
+  Uso en el Proyecto: Almacena la fecha de nacimiento de los empleados dentro de
+  Tbl_Datos_Personales, donde conocer la hora exacta del evento es irrelevante.
+
+DATETIME2
+  Concepto: Tipo de dato cronologico de alta precision que registra fecha y hora
+  combinadas, permitiendo configurar la escala de fracciones de segundo.
+  Uso en el Proyecto: Configurado con precision de dos digitos en los campos de
+  auditoria para guardar el segundo exacto en que se asienta un gasto o alerta.
+
+DECIMAL
+  Concepto: Tipo de dato numerico de precision fija exacta que recibe parametros
+  de longitud total y cantidad de posiciones reservadas para la fraccion decimal.
+  Uso en el Proyecto: Definido como DECIMAL(18,2) en montos presupuestarios y
+  gastos para garantizar el manejo matematico exacto de centavos sin redondeos.
+
+DEFAULT
+  Concepto: Restriccion que inyecta de forma automatica un valor predefinido en
+  una columna si el usuario no proporciona uno de forma explicita en el INSERT.
+  Uso en el Proyecto: Asegura que el Monto_Ejecutado inicie en cero, las monedas
+  se guarden en Dólar por defecto y las alertas nazcan marcadas como no leidas.
+
+FOREIGN KEY
+  Concepto: Restriccion de integridad referencial que obliga a que los valores
+  de una columna coincidan estrictamente con las llaves primarias de otra tabla.
+  Uso en el Proyecto: Conecta toda la base de datos garantizando que no existan
+  gastos huerfanos, usuarios sin rol asignado o centros de costo inexistentes.
+
+GO
+  Concepto: Comando especifico de las herramientas de Microsoft SQL Server que
+  indica el final de un lote de sentencias T-SQL para su envio al motor.
+  Uso en el Proyecto: Separa la instanciacion de tablas que dependen de otras,
+  evitando errores de compilacion al procesar el script de forma secuencial.
+
+IDENTITY
+  Concepto: Propiedad de columna que genera de forma automatica valores enteros
+  secuenciales incrementales, impidiendo la manipulacion manual del valor.
+  Uso en el Proyecto: Se aplica a todas las llaves primarias de las tablas para
+  que el motor gestione de forma automatica e interna los indices correlativos.
+
+IN
+  Concepto: Operador logico de comparacion que evalua si el valor de una columna
+  coincide con cualquiera de los elementos declarados dentro de una lista explicita.
+  Uso en el Proyecto: Valida en la tabla Tbl_Ajustes_Presupuesto que el tipo de
+  adenda sea estrictamente un INCREMENTO o una REDUCCION de saldo financiero.
+
+INT
+  Concepto: Tipo de dato numerico entero estándar de 4 bytes de almacenamiento
+  capaz de soportar valores positivos y negativos de gran escala.
+  Uso en el Proyecto: Es el estandar seleccionado para todas las llaves primarias
+  y foraneas de la arquitectura para maximizar la velocidad de busqueda e indexacion.
+
+IS
+  Concepto: Operador de comparacion especial utilizado exclusivamente para evaluar
+  si el valor de una celda posee la propiedad de ausencia de datos conocida como NULL.
+  Uso en el Proyecto: Requisito fundamental en el CHECK de Tbl_Aprobaciones para
+  comprobar que campos opcionales esten o no presentes de forma controlada.
+
+NOT
+  Concepto: Operador de negacion logica que invierte el resultado de una condicion
+  o restringe la aceptacion de estados nulos dentro de una definicion estructural.
+  Uso en el Proyecto: Acompaña a la clausula NULL en columnas obligatorias para
+  el control de negocio, asegurando que no se guarden facturas sin montos reales.
+
+NVARCHAR
+  Concepto: Tipo de dato de cadena de caracteres de longitud variable que soporta
+  codificacion de texto Unicode para el almacenamiento de cualquier alfabeto.
+  Uso en el Proyecto: Protege la integridad de nombres de personas, proveedores
+  y descripciones con tildes, caracteres especiales o formatos internacionales.
+
+NULL
+  Concepto: Indicador que representa la ausencia total de un valor o dato dentro
+  de una columna, denotando que la informacion es desconocida o no aplica aun.
+  Uso en el Proyecto: Permite que campos de auditoria de modificacion o enlaces
+  opcionales nazcan vacios hasta que se ejecute la transaccion que los requiera.
+
+OR
+  Concepto: Operador logico booleano que conecta condiciones requiriendo que al
+  menos una de ellas resulte verdadera para validar la instruccion completa.
+  Uso en el Proyecto: Estructura la logica excluyente en Tbl_Aprobaciones para
+  permitir que un registro valide la aprobacion de un gasto o de un presupuesto.
+
+PRIMARY KEY
+  Concepto: Restriccion de integridad que identifica de forma unica e irrepetible
+  a cada una de las filas dentro de una tabla, prohibiendo duplicados y nulos.
+  Uso en el Proyecto: Es la columna vertebral de cada tabla de la arquitectura,
+  permitiendo indexar, buscar y relacionar datos de manera optima y estructurada.
+
+REFERENCES
+  Concepto: Palabra clave utilizada en la declaracion de claves foraneas para
+  indicar la tabla y la columna primaria especifica hacia la cual apunta el vinculo.
+  Uso en el Proyecto: Mapea el destino final de las relaciones logicas, como el
+  enlace que asocia los detalles presupuestarios con sus centros de costo correspondientes.
+
+SYSDATETIME
+  Concepto: Funcion del sistema integrada en SQL Server que captura la fecha y la
+  hora actual de la maquina donde corre el servidor de base de datos con alta precision.
+  Uso en el Proyecto: Actua como la fabrica de tiempo automatica asignada a los
+  valores DEFAULT en las columnas de creacion de todas las tablas transaccionales.
+
+TABLE
+  Concepto: Palabra clave orientada a definir que el objeto estructural que se va
+  a crear corresponde a una coleccion bidimensional compuesta por filas y columnas.
+  Uso en el Proyecto: Se utiliza en combinacion con CREATE para dar de alta cada
+  uno de los catorce repositorios logicos del sistema de control de presupuestos.
+
+UNIQUE
+  Concepto: Restriccion de integridad que prohibe la repeticion de valores en una
+  columna o grupo de columnas, permitiendo asegurar valores unicos de negocio.
+  Uso en el Proyecto: Protege contra la duplicacion del identificador DNI, nombres de
+  roles de usuario, cuentas contables y previene codigos ISO de monedas identicos.
+
+VARCHAR
+  Concepto: Tipo de dato de cadena de caracteres de longitud variable optimizado para
+  texto estandar no Unicode, reduciendo el consumo de almacenamiento en disco.
+  Uso en el Proyecto: Utilizado para codigos internacionales compactos y estandarizados,
+  tales como las siglas de tres caracteres de la tabla de monedas (USD, NIO).
+
+USE
+  Concepto: Comando de control de sesion que instruye al motor SQL cambiar el contexto
+  operativo actual hacia la base de datos especificada en el parametro del comando.
+  Uso en el Proyecto: Ejecutado al inicio de cada script para garantizar que las tablas,
+  triggers e inserciones se asienten exactamente dentro de Presupuesto_Empresarial.
+
+
+
+FIN DEL DICCIONARIO LOGICO - PALABRAS RESERVADAS T-SQL
+
+DICCIONARIO DE TERMINOS Y PALABRAS RESERVADAS T-SQL - PROYECTO PRESUPUESTARIO
+
+
+LISTA GENERAL DE PALABRAS RESERVADAS, TIPOS DE DATOS Y COMANDOS UTILIZADOS
+  ALTER
+  ADD
+  AND
+  BIT
+  CHECK
+  CONSTRAINT
+  CREATE
+  DATABASE
+  DATE
+  DATETIME2
+  DECIMAL
+  DEFAULT
+  FOREIGN KEY
+  GO
+  IDENTITY
+  IN
+  INT
+  IS
+  NOT
+  NVARCHAR
+  NULL
+  OR
+  PRIMARY KEY
+  REFERENCES
+  SYSDATETIME
+  TABLE
+  UNIQUE
+  USE
+  VARCHAR
+
+
+
+GLOSARIO COMPLETO Y EXPLICACION DE USO EN EL PROYECTO
+
+
+ALTER
+  Concepto: Comando DDL que modifica la estructura de un objeto existente dentro
+  de la base de datos sin necesidad de borrarlo y crearlo de nuevo.
+  Uso en el Proyecto: Se utiliza para agregar restricciones de clave foranea de
+  forma diferida en las tablas Tbl_Datos_Personales y Tbl_Usuarios, rompiendo el
+  bloqueo de dependencia circular en el momento del arranque del esquema.
+
+ADD
+  Concepto: Palabra clave complementaria que se utiliza en conjunto con comandos
+  como ALTER para especificar la adicion de una nueva columna o restriccion.
+  Uso en el Proyecto: Se emplea explicitamente para inyectar los Constraints de
+  tipo FOREIGN KEY encargados de auditar la creacion de cuentas y perfiles.
+
+AND
+  Concepto: Operador logico booleano que conecta dos o mas condiciones evaluadas
+  dentro de un filtro, requiriendo que todas sean verdaderas para validar la fila.
+  Uso en el Proyecto: Se usa en las restricciones CHECK de Tbl_Aprobaciones para
+  validar las reglas excluyentes de evaluacion de un presupuesto o un gasto.
+
+BIT
+  Concepto: Tipo de dato numerico entero que solo acepta valores 1, 0 o NULL,
+  actuando como la representacion nativa de valores booleanos en SQL Server.
+  Uso en el Proyecto: Define banderas de habilitacion logica como Activo en los
+  catalogos y las columnas de matriz de permisos de seguridad como Puede_Crear.
+
+CHECK
+  Concepto: Restriccion de integridad logica que evalua los datos antes de ser
+  asentados, rechazando cualquier fila que no cumpla una condicion dada.
+  Uso en el Proyecto: Es la linea de defensa que valida que los montos sean
+  mayores a cero, que el año fiscal sea valido y que las adendas no desborden.
+
+CONSTRAINT
+  Concepto: Palabra clave que define explicitamente una regla o restriccion de
+  integridad asignandole un identificador propio dentro de la base de datos.
+  Uso en el Proyecto: Se utiliza para rotular cada regla con prefijos claros
+  como FK, CK o UQ, permitiendo capturar errores con nombres legibles en el ERP.
+
+CREATE
+  Concepto: Comando DDL fundamental que inicializa de forma fisica la existencia
+  de un nuevo objeto estructural en el servidor, como bases de datos o tablas.
+  Uso en el Proyecto: Es el bloque de construccion inicial para instanciar la
+  base de datos empresarial y las catorce tablas del modelo de datos corporativo.
+
+DATABASE
+  Concepto: Palabra clave que especifica que el objeto a crearse o manipularse
+  dentro del servidor corresponde a un contenedor global de archivos de datos.
+  Uso en el Proyecto: Acompaña al comando CREATE para reservar el espacio fisico
+  y logico que administrara todo el entorno de Presupuesto_Empresarial.
+
+DATE
+  Concepto: Tipo de dato cronologico optimizado que almacena de forma exclusiva
+  el año, mes y dia, omitiendo por completo el registro de la hora.
+  Uso en el Proyecto: Almacena la fecha de nacimiento de los empleados dentro de
+  Tbl_Datos_Personales, donde conocer la hora exacta del evento es irrelevante.
+
+DATETIME2
+  Concepto: Tipo de dato cronologico de alta precision que registra fecha y hora
+  combinadas, permitiendo configurar la escala de fracciones de segundo.
+  Uso en el Proyecto: Configurado con precision de dos digitos en los campos de
+  auditoria para guardar el segundo exacto en que se asienta un gasto o alerta.
+
+DECIMAL
+  Concepto: Tipo de dato numerico de precision fija exacta que recibe parametros
+  de longitud total y cantidad de posiciones reservadas para la fraccion decimal.
+  Uso en el Proyecto: Definido como DECIMAL(18,2) en montos presupuestarios y
+  gastos para garantizar el manejo matematico exacto de centavos sin redondeos.
+
+DEFAULT
+  Concepto: Restriccion que inyecta de forma automatica un valor predefinido en
+  una columna si el usuario no proporciona uno de forma explicita en el INSERT.
+  Uso en el Proyecto: Asegura que el Monto_Ejecutado inicie en cero, las monedas
+  se guarden en Dólar por defecto y las alertas nazcan marcadas como no leidas.
+
+FOREIGN KEY
+  Concepto: Restriccion de integridad referencial que obliga a que los valores
+  de una columna coincidan estrictamente con las llaves primarias de otra tabla.
+  Uso en el Proyecto: Conecta toda la base de datos garantizando que no existan
+  gastos huerfanos, usuarios sin rol asignado o centros de costo inexistentes.
+
+GO
+  Concepto: Comando especifico de las herramientas de Microsoft SQL Server que
+  indica el final de un lote de sentencias T-SQL para su envio al motor.
+  Uso en el Proyecto: Separa la instanciacion de tablas que dependen de otras,
+  evitando errores de compilacion al procesar el script de forma secuencial.
+
+IDENTITY
+  Concepto: Propiedad de columna que genera de forma automatica valores enteros
+  secuenciales incrementales, impidiendo la manipulacion manual del valor.
+  Uso en el Proyecto: Se aplica a todas las llaves primarias de las tablas para
+  que el motor gestione de forma automatica e interna los indices correlativos.
+
+IN
+  Concepto: Operador logico de comparacion que evalua si el valor de una columna
+  coincide con cualquiera de los elementos declarados dentro de una lista explicita.
+  Uso en el Proyecto: Valida en la tabla Tbl_Ajustes_Presupuesto que el tipo de
+  adenda sea estrictamente un INCREMENTO o una REDUCCION de saldo financiero.
+
+INT
+  Concepto: Tipo de dato numerico entero estándar de 4 bytes de almacenamiento
+  capaz de soportar valores positivos y negativos de gran escala.
+  Uso en el Proyecto: Es el estandar seleccionado para todas las llaves primarias
+  y foraneas de la arquitectura para maximizar la velocidad de busqueda e indexacion.
+
+IS
+  Concepto: Operador de comparacion especial utilizado exclusivamente para evaluar
+  si el valor de una celda posee la propiedad de ausencia de datos conocida como NULL.
+  Uso en el Proyecto: Requisito fundamental en el CHECK de Tbl_Aprobaciones para
+  comprobar que campos opcionales esten o no presentes de forma controlada.
+
+NOT
+  Concepto: Operador de negacion logica que invierte el resultado de una condicion
+  o restringe la aceptacion de estados nulos dentro de una definicion estructural.
+  Uso en el Proyecto: Acompaña a la clausula NULL en columnas obligatorias para
+  el control de negocio, asegurando que no se guarden facturas sin montos reales.
+
+NVARCHAR
+  Concepto: Tipo de dato de cadena de caracteres de longitud variable que soporta
+  codificacion de texto Unicode para el almacenamiento de cualquier alfabeto.
+  Uso en el Proyecto: Protege la integridad de nombres de personas, proveedores
+  y descripciones con tildes, caracteres especiales o formatos internacionales.
+
+NULL
+  Concepto: Indicador que representa la ausencia total de un valor o dato dentro
+  de una columna, denotando que la informacion es desconocida o no aplica aun.
+  Uso en el Proyecto: Permite que campos de auditoria de modificacion o enlaces
+  opcionales nazcan vacios hasta que se ejecute la transaccion que los requiera.
+
+OR
+  Concepto: Operador logico booleano que conecta condiciones requiriendo que al
+  menos una de ellas resulte verdadera para validar la instruccion completa.
+  Uso en el Proyecto: Estructura la logica excluyente en Tbl_Aprobaciones para
+  permitir que un registro valide la aprobacion de un gasto o de un presupuesto.
+
+PRIMARY KEY
+  Concepto: Restriccion de integridad que identifica de forma unica e irrepetible
+  a cada una de las filas dentro de una tabla, prohibiendo duplicados y nulos.
+  Uso en el Proyecto: Es la columna vertebral de cada tabla de la arquitectura,
+  permitiendo indexar, buscar y relacionar datos de manera optima y estructurada.
+
+REFERENCES
+  Concepto: Palabra clave utilizada en la declaracion de claves foraneas para
+  indicar la tabla y la columna primaria especifica hacia la cual apunta el vinculo.
+  Uso en el Proyecto: Mapea el destino final de las relaciones logicas, como el
+  enlace que asocia los detalles presupuestarios con sus centros de costo correspondientes.
+
+SYSDATETIME
+  Concepto: Funcion del sistema integrada en SQL Server que captura la fecha y la
+  hora actual de la maquina donde corre el servidor de base de datos con alta precision.
+  Uso en el Proyecto: Actua como la fabrica de tiempo automatica asignada a los
+  valores DEFAULT en las columnas de creacion de todas las tablas transaccionales.
+
+TABLE
+  Concepto: Palabra clave orientada a definir que el objeto estructural que se va
+  a crear corresponde a una coleccion bidimensional compuesta por filas y columnas.
+  Uso en el Proyecto: Se utiliza en combinacion con CREATE para dar de alta cada
+  uno de los catorce repositorios logicos del sistema de control de presupuestos.
+
+UNIQUE
+  Concepto: Restriccion de integridad que prohibe la repeticion de valores en una
+  columna o grupo de columnas, permitiendo asegurar valores unicos de negocio.
+  Uso en el Proyecto: Protege contra la duplicacion del identificador DNI, nombres de
+  roles de usuario, cuentas contables y previene codigos ISO de monedas identicos.
+
+VARCHAR
+  Concepto: Tipo de dato de cadena de caracteres de longitud variable optimizado para
+  texto estandar no Unicode, reduciendo el consumo de almacenamiento en disco.
+  Uso en el Proyecto: Utilizado para codigos internacionales compactos y estandarizados,
+  tales como las siglas de tres caracteres de la tabla de monedas (USD, NIO).
+
+USE
+  Concepto: Comando de control de sesion que instruye al motor SQL cambiar el contexto
+  operativo actual hacia la base de datos especificada en el parametro del comando.
+  Uso en el Proyecto: Ejecutado al inicio de cada script para garantizar que las tablas,
+  triggers e inserciones se asienten exactamente dentro de Presupuesto_Empresarial.
+
+
+
+FIN DEL DICCIONARIO LOGICO - PALABRAS RESERVADAS T-SQL
