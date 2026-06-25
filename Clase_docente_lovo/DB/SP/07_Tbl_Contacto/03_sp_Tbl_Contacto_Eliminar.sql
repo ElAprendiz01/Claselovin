@@ -112,7 +112,7 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Contacto_Eliminar
-    @Id_Contacto = 2,
+    @Id_Contacto = 5,
     @Id_Modificador = 1,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,

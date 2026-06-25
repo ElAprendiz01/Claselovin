@@ -166,7 +166,7 @@ EXEC sp_Tbl_Contacto_Actualizar
     @Id_Contacto = 1,
     @Id_Persona = 1,
     @Id_Tipo_Contacto = 5,
-    @Contacto = 'carlos.mendoza@empresa.com',
+    @Contacto = 'carlos.mendoza@gmail.com',
     @Id_Modificador = 1,
     @Id_Estado = 1,
     @o_code = @v_code OUTPUT,
