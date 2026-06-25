@@ -1,0 +1,16 @@
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\bin\Debug\net10.0\Aplicacion.deps.json
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\bin\Debug\net10.0\Aplicacion.dll
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\bin\Debug\net10.0\Aplicacion.pdb
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\bin\Debug\net10.0\Domain.dll
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\bin\Debug\net10.0\Domain.pdb
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\obj\Debug\net10.0\Aplicacion.csproj.AssemblyReference.cache
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\obj\Debug\net10.0\Aplicacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\obj\Debug\net10.0\Aplicacion.AssemblyInfoInputs.cache
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\obj\Debug\net10.0\Aplicacion.AssemblyInfo.cs
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\obj\Debug\net10.0\Aplicacion.csproj.CoreCompileInputs.cache
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\obj\Debug\net10.0\Aplicacion.sourcelink.json
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\obj\Debug\net10.0\Aplicacion.csproj.Up2Date
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\obj\Debug\net10.0\Aplicacion.dll
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\obj\Debug\net10.0\refint\Aplicacion.dll
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\obj\Debug\net10.0\Aplicacion.pdb
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Aplicacion\obj\Debug\net10.0\ref\Aplicacion.dll

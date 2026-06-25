@@ -30,7 +30,13 @@ INNER JOIN Tbl_Centros_Costo CC (NOLOCK) ON DP.Id_Centro_Costo = CC.Id_Centro_Co
 INNER JOIN Tbl_Departamentos D (NOLOCK) ON CC.Id_Departamento = D.Id_Departamento
 INNER JOIN Cat_General G_PROV (NOLOCK) ON G.Id_Proveedor = G_PROV.Id_Catalogo
 INNER JOIN Cat_General G_TIPO (NOLOCK) ON G.Id_Tipo_Gasto = G_TIPO.Id_Catalogo
-INNER JOIN Cat_Estado E (NOLOCK) ON G.Id_Estado = E.Id_Estado;
+INNER JOIN Cat_Estado E (NOLOCK) ON G.Id_Estado = E.Id_Estado
+WHERE G.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%')
+  AND P.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%')
+  AND CC.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%')
+  AND D.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%')
+  AND G_PROV.Activo = 1
+  AND G_TIPO.Activo = 1;
 GO
 
 SELECT * FROM VW_Gastos_Transaccionales_General;

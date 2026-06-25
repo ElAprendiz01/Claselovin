@@ -103,7 +103,7 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Cat_Estado_Actualizar
-    @Id_Estado = 1,
+    @Id_Estado = 7,
     @Estado = 'Activo Modificado',
     @Id_Modificador = 1,
     @Activo = 1,
@@ -116,3 +116,4 @@ SELECT
     @v_message AS MensajeResultado, 
     @v_templateId AS EstadoIdModificado;
 GO
+select * from Cat_Estado

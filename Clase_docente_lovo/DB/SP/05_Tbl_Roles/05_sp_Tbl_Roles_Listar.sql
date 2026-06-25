@@ -18,7 +18,15 @@ BEGIN
         R.Id_Estado,
         E.Estado AS Nombre_Estado
     FROM Tbl_Roles R (NOLOCK)
-    INNER JOIN Cat_Estado E (NOLOCK) ON R.Id_Estado = E.Id_Estado;
+    INNER JOIN Cat_Estado E (NOLOCK) ON R.Id_Estado = E.Id_Estado
+    WHERE R.Id_Estado NOT IN (
+        SELECT Id_Estado 
+        FROM Cat_Estado (NOLOCK)
+        WHERE Estado LIKE '%Inactivo%'
+           OR Estado LIKE '%Eliminado%'
+           OR Estado LIKE '%Desactivado%'
+           OR Estado LIKE '%Baja%'
+    );
 END;
 GO
 

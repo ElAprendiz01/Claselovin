@@ -13,7 +13,8 @@ BEGIN
         Nombre_Moneda,
         Simbolo,
         Activo
-    FROM Cat_Monedas (NOLOCK);
+    FROM Cat_Monedas (NOLOCK)
+	where Activo =1;
 END;
 GO
 

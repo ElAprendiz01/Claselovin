@@ -1,0 +1,12 @@
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\bin\Debug\net10.0\Domain.deps.json
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\bin\Debug\net10.0\Domain.dll
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\bin\Debug\net10.0\Domain.pdb
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\obj\Debug\net10.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\obj\Debug\net10.0\Domain.AssemblyInfoInputs.cache
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\obj\Debug\net10.0\Domain.AssemblyInfo.cs
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\obj\Debug\net10.0\Domain.csproj.CoreCompileInputs.cache
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\obj\Debug\net10.0\Domain.sourcelink.json
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\obj\Debug\net10.0\Domain.dll
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\obj\Debug\net10.0\refint\Domain.dll
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\obj\Debug\net10.0\Domain.pdb
+C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Domain\obj\Debug\net10.0\ref\Domain.dll

@@ -102,7 +102,7 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Cat_General_Eliminar
-    @Id_Catalogo = 1,
+    @Id_Catalogo = 18,
     @Id_Modificador = 1,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,
@@ -113,3 +113,6 @@ SELECT
     @v_message AS MensajeResultado, 
     @v_templateId AS CatalogoIdEliminado;
 GO
+
+
+select * from Cat_General	

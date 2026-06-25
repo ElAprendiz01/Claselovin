@@ -33,6 +33,14 @@ BEGIN
         )
     )
     AND (@Id_Rol IS NULL OR R.Id_Rol = @Id_Rol)
+	AND R.Id_Estado NOT IN (
+        SELECT Id_Estado 
+        FROM Cat_Estado (NOLOCK)
+        WHERE Estado LIKE '%Inactivo%'
+           OR Estado LIKE '%Eliminado%'
+           OR Estado LIKE '%Desactivado%'
+           OR Estado LIKE '%Baja%'
+		   )
     OPTION (RECOMPILE);
 END;
 GO

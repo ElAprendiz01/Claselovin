@@ -22,7 +22,9 @@ SELECT
 FROM Tbl_Centros_Costo CC (NOLOCK)
 INNER JOIN Tbl_Departamentos D (NOLOCK) ON CC.Id_Departamento = D.Id_Departamento
 INNER JOIN Cat_Estado E_CC (NOLOCK) ON CC.Id_Estado = E_CC.Id_Estado
-INNER JOIN Cat_Estado E_D (NOLOCK) ON D.Id_Estado = E_D.Id_Estado;
+INNER JOIN Cat_Estado E_D (NOLOCK) ON D.Id_Estado = E_D.Id_Estado
+WHERE CC.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%')
+  AND D.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%');
 GO
 
 SELECT * FROM VW_Estructura_Organizacional_General;

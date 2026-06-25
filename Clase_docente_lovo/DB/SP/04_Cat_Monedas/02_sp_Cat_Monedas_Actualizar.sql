@@ -105,7 +105,7 @@ DECLARE @v_templateId INT;
 EXEC sp_Cat_Monedas_Actualizar
     @Id_Moneda = 1,
     @Codigo_ISO = 'USD',
-    @Nombre_Moneda = 'Dolar Modificado',
+    @Nombre_Moneda = 'Dolar',
     @Simbolo = '$',
     @Activo = 1,
     @o_code = @v_code OUTPUT,

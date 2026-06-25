@@ -103,8 +103,8 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Cat_Tipo_Catalogo_Actualizar
-    @Id_Tipo_Catalogo = 1,
-    @Nombre = 'Genero Modificado',
+    @Id_Tipo_Catalogo = 8,
+    @Nombre = ' Modificado',
     @Id_Modificador = 1,
     @Activo = 1,
     @o_code = @v_code OUTPUT,

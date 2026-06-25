@@ -86,7 +86,7 @@ DECLARE @v_templateId INT;
 
 EXEC sp_Cat_General_Crear
     @Id_Tipo_Catalogo = 1,
-    @Nombre = 'Masculino Prueba',
+    @Nombre = 'nuevos24',
     @Id_Creador = NULL,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,

@@ -70,7 +70,7 @@ DECLARE @v_templateId INT;
 
 EXEC sp_Cat_Tipo_Catalogo_Crear
     @Nombre = 'Prueba Tipo',
-    @Id_Creador = NULL,
+    @Id_Creador = 2,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,
     @o_templateId = @v_templateId OUTPUT;

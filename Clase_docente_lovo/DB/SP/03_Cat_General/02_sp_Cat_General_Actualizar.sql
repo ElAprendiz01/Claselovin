@@ -120,7 +120,7 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Cat_General_Actualizar
-    @Id_Catalogo = 1,
+    @Id_Catalogo = 18,
     @Id_Tipo_Catalogo = 1,
     @Nombre = 'Masculino Modificado',
     @Id_Modificador = 1,

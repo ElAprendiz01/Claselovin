@@ -106,7 +106,7 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Cat_Estado_Eliminar
-    @Id_Estado = 6,
+    @Id_Estado = 7,
     @Id_Modificador = 1,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,

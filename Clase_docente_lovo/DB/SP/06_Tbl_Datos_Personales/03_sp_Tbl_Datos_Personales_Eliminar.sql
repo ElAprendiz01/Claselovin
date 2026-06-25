@@ -134,7 +134,7 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Datos_Personales_Eliminar
-    @Id_Persona = 3,
+    @Id_Persona = 4,
     @Id_Modificador = 1,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,
