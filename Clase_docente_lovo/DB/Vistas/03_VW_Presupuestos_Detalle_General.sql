@@ -34,7 +34,12 @@ INNER JOIN Tbl_Centros_Costo CC (NOLOCK) ON DP.Id_Centro_Costo = CC.Id_Centro_Co
 INNER JOIN Tbl_Departamentos D (NOLOCK) ON CC.Id_Departamento = D.Id_Departamento
 INNER JOIN Cat_Monedas M (NOLOCK) ON P.Id_Moneda = M.Id_Moneda
 INNER JOIN Cat_General CG (NOLOCK) ON DP.Id_Categoria_Gasto = CG.Id_Catalogo
-INNER JOIN Cat_Estado E (NOLOCK) ON P.Id_Estado = E.Id_Estado;
+INNER JOIN Cat_Estado E (NOLOCK) ON P.Id_Estado = E.Id_Estado
+WHERE P.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%')
+  AND CC.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%')
+  AND D.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%')
+  AND M.Activo = 1
+  AND CG.Activo = 1;
 GO
 
 SELECT * FROM VW_Presupuestos_Detalle_General;

@@ -184,15 +184,9 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Datos_Personales_Actualizar
-    @Id_Persona = 3,
+    @Id_Persona = 4,
     @Id_Genero = 1,
     @Primer_Nombre = 'Juan',
-    @Segundo_Nombre = 'Carlos',
-    @Primer_Apellido = 'Perez',
-    @Segundo_Apellido = 'Castro',
-    @Fecha_Nacimiento = '1995-11-05',
-    @Id_Tipo_DNI = 3,
-    @DNI = '001-051195-0003C',
     @Id_Modificador = 1,
     @Id_Estado = 1,
     @o_code = @v_code OUTPUT,

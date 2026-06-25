@@ -15,7 +15,8 @@ BEGIN
         Id_Creador,
         Id_Modificador,
         Activo
-    FROM Cat_Estado (NOLOCK);
+    FROM Cat_Estado (NOLOCK)
+    WHERE Activo = 1;
 END;
 GO
 

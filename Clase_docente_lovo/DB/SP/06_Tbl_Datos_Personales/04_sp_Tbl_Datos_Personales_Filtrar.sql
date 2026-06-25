@@ -44,6 +44,13 @@ BEGIN
         )
     )
     AND (@Id_Persona IS NULL OR P.Id_Persona = @Id_Persona)
+	AND P.Id_Estado NOT IN (
+        SELECT Id_Estado 
+        FROM Cat_Estado (NOLOCK)
+        WHERE Estado LIKE '%Inactivo%'
+           OR Estado LIKE '%Eliminado%'
+           OR Estado LIKE '%Desactivado%'
+           OR Estado LIKE '%Baja%')
     OPTION (RECOMPILE);
 END;
 GO

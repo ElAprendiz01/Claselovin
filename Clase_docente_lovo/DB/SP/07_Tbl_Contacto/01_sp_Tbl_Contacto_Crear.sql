@@ -125,7 +125,7 @@ DECLARE @v_templateId INT;
 EXEC sp_Tbl_Contacto_Crear
     @Id_Persona = 1,
     @Id_Tipo_Contacto = 5,
-    @Contacto = 'prueba@empresa.com',
+    @Contacto = 'perepretp@empresa.com',
     @Id_Creador = NULL,
     @Id_Estado = 1,
     @o_code = @v_code OUTPUT,

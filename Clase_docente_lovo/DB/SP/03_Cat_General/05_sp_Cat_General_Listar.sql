@@ -18,7 +18,8 @@ BEGIN
         G.Id_Modificador,
         G.Activo
     FROM Cat_General G (NOLOCK)
-    INNER JOIN Cat_Tipo_Catalogo T (NOLOCK) ON G.Id_Tipo_Catalogo = T.Id_Tipo_Catalogo;
+    INNER JOIN Cat_Tipo_Catalogo T (NOLOCK) ON G.Id_Tipo_Catalogo = T.Id_Tipo_Catalogo
+	where G.Activo =1;
 END;
 GO
 

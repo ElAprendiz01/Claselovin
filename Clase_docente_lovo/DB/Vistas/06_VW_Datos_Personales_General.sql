@@ -26,5 +26,10 @@ SELECT
 FROM Tbl_Datos_Personales P (NOLOCK)
 INNER JOIN Cat_General G_DNI (NOLOCK) ON P.Id_Tipo_DNI = G_DNI.Id_Catalogo
 INNER JOIN Cat_General G_GEN (NOLOCK) ON P.Id_Genero = G_GEN.Id_Catalogo
-INNER JOIN Cat_Estado E (NOLOCK) ON P.Id_Estado = E.Id_Estado;
+INNER JOIN Cat_Estado E (NOLOCK) ON P.Id_Estado = E.Id_Estado
+WHERE P.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%')
+  AND G_DNI.Activo = 1
+  AND G_GEN.Activo = 1;
 GO
+
+select * from VW_Datos_Personales_General

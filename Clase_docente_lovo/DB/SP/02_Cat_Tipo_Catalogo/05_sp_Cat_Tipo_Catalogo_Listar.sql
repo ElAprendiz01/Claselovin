@@ -15,7 +15,8 @@ BEGIN
         Id_Creador,
         Id_Modificador,
         Activo
-    FROM Cat_Tipo_Catalogo (NOLOCK);
+    FROM Cat_Tipo_Catalogo (NOLOCK)
+	WHERE Activo = 1;
 END;
 GO
 

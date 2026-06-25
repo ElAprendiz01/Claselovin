@@ -86,9 +86,9 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Roles_Crear
-    @Nombre = 'Prueba Rol',
-    @Descripcion = 'Descripcion de prueba',
-    @Id_Creador = NULL,
+    @Nombre = 'Gerente RRHH',
+    @Descripcion = 'Gerente del area de Recursos Humanos ',
+    @Id_Creador = 1,
     @Id_Estado = 1,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,

@@ -149,9 +149,8 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Roles_Actualizar
-    @Id_Rol = 1,
-    @Nombre = 'Administrador Modificado',
-    @Descripcion = 'Acceso total modificado',
+    @Id_Rol = 4,
+    @Descripcion = 'Gerente de Area de RRHH el que te puede correr sin que le pregunte por que ',
     @Id_Modificador = 1,
     @Id_Estado = 1,
     @o_code = @v_code OUTPUT,

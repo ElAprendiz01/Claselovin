@@ -121,7 +121,7 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Roles_Eliminar
-    @Id_Rol = 1,
+    @Id_Rol = 4,
     @Id_Modificador = 1,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,
@@ -132,3 +132,4 @@ SELECT
     @v_message AS MensajeResultado, 
     @v_templateId AS RolIdEliminado;
 GO
+select * from Tbl_Roles

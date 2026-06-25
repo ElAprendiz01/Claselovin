@@ -29,6 +29,7 @@ BEGIN
         )
     )
     AND (@Id_Estado IS NULL OR Id_Estado = @Id_Estado)
+	AND Activo = 1
     OPTION (RECOMPILE);
 END;
 GO

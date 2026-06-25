@@ -20,5 +20,11 @@ SELECT
 FROM Tbl_Contacto C (NOLOCK)
 INNER JOIN Tbl_Datos_Personales P (NOLOCK) ON C.Id_Persona = P.Id_Persona
 INNER JOIN Cat_General G (NOLOCK) ON C.Id_Tipo_Contacto = G.Id_Catalogo
-INNER JOIN Cat_Estado E (NOLOCK) ON C.Id_Estado = E.Id_Estado;
+INNER JOIN Cat_Estado E (NOLOCK) ON C.Id_Estado = E.Id_Estado
+WHERE C.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%')
+  AND P.Id_Estado NOT IN (SELECT Id_Estado FROM Cat_Estado (NOLOCK) WHERE Estado LIKE '%Inactivo%' OR Estado LIKE '%Eliminado%' OR Estado LIKE '%Cancelado%' OR Estado LIKE '%Borrado%' OR Estado LIKE '%Baja%')
+  AND G.Activo = 1;
 GO
+
+
+select * from VW_Contactos_General

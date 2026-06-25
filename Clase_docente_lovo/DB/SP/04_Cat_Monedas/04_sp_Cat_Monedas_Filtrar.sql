@@ -29,6 +29,7 @@ BEGIN
         )
     )
     AND (@Id_Moneda IS NULL OR Id_Moneda = @Id_Moneda)
+	ANd Activo =1
     OPTION (RECOMPILE);
 END;
 GO

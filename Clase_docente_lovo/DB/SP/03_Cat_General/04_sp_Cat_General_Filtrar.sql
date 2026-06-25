@@ -35,6 +35,7 @@ BEGIN
     )
     AND (@Id_Catalogo IS NULL OR G.Id_Catalogo = @Id_Catalogo)
     AND (@Id_Tipo_Catalogo IS NULL OR G.Id_Tipo_Catalogo = @Id_Tipo_Catalogo)
+	and G.Activo = 1
     OPTION (RECOMPILE);
 END;
 GO

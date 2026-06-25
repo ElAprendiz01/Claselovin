@@ -98,7 +98,7 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Cat_Tipo_Catalogo_Eliminar
-    @Id_Tipo_Catalogo = 1,
+    @Id_Tipo_Catalogo = 8,
     @Id_Modificador = 1,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,

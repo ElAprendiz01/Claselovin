@@ -80,7 +80,7 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Cat_Monedas_Eliminar
-    @Id_Moneda = 1,
+    @Id_Moneda = 4,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,
     @o_templateId = @v_templateId OUTPUT;
