@@ -123,9 +123,9 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Contacto_Crear
-    @Id_Persona = 1,
+    @Id_Persona =3,
     @Id_Tipo_Contacto = 5,
-    @Contacto = 'perepretp@empresa.com',
+    @Contacto = 'juan.perez@gmail.com',
     @Id_Creador = NULL,
     @Id_Estado = 1,
     @o_code = @v_code OUTPUT,
