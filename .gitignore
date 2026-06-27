@@ -10,3 +10,5 @@ Thumbs.db
 # --- Archivos Markdown ---
 # Esto evita que se suban archivos .md (Nota: README.md seguirá apareciendo si ya estaba subido)
 *.md
+.agents
+*.agents

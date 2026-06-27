@@ -1,23 +1,504 @@
 [
   {
-    "ContainingType": "Presentacion.Controllers.WeatherForecastController",
-    "Method": "Get",
-    "RelativePath": "WeatherForecast",
+    "ContainingType": "Presentacion.Controllers.CatGeneralController",
+    "Method": "Actualizar_Cat_General",
+    "RelativePath": "api/CatGeneral/actualizar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "catalogo",
+        "Type": "Aplicacion.DTOs.CatalogoGeneral.CatGeneralActualizarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.CatGeneralController",
+    "Method": "Crear_Cat_General",
+    "RelativePath": "api/CatGeneral/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "catalogo",
+        "Type": "Aplicacion.DTOs.CatalogoGeneral.CatGeneralCrearDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.CatGeneralController",
+    "Method": "Eliminar_Cat_General",
+    "RelativePath": "api/CatGeneral/eliminar",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "catalogo",
+        "Type": "Aplicacion.DTOs.CatalogoGeneral.CatGeneralEliminarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.CatGeneralController",
+    "Method": "Filtrar_Cat_General",
+    "RelativePath": "api/CatGeneral/filtrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filtro",
+        "Type": "Aplicacion.DTOs.CatalogoGeneral.CatGeneralFiltrarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.CatGeneralController",
+    "Method": "Listar_Cat_General",
+    "RelativePath": "api/CatGeneral/listar",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.ContactoController",
+    "Method": "Actualizar_Cat_Contacto",
+    "RelativePath": "api/Contacto/actualizar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Presentacion.WeatherForecast, Presentacion, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
+        "Name": "contacto",
+        "Type": "Aplicacion.DTOs.Contacto.ContactoActualizarDTOs",
+        "IsRequired": true
       }
     ],
-    "EndpointName": "GetWeatherForecast"
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.ContactoController",
+    "Method": "Crear_Cat_Contacto",
+    "RelativePath": "api/Contacto/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contacto",
+        "Type": "Aplicacion.DTOs.Contacto.ContactoCrearDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.ContactoController",
+    "Method": "Eliminar_Cat_Contacto",
+    "RelativePath": "api/Contacto/eliminar",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contacto",
+        "Type": "Aplicacion.DTOs.Contacto.ContactoEliminarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.ContactoController",
+    "Method": "Listar_Cat_Contacto",
+    "RelativePath": "api/Contacto/listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.DatosPersonalesController",
+    "Method": "Actualizar_Cat_DatosPersonales",
+    "RelativePath": "api/DatosPersonales/actualizar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "datos",
+        "Type": "Aplicacion.DTOs.DatosPersonales.DatosPersonalesActualizarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.DatosPersonalesController",
+    "Method": "Crear_Cat_DatosPersonales",
+    "RelativePath": "api/DatosPersonales/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "datos",
+        "Type": "Aplicacion.DTOs.DatosPersonales.DatosPersonalesCrearDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.DatosPersonalesController",
+    "Method": "Eliminar_Cat_DatosPersonales",
+    "RelativePath": "api/DatosPersonales/eliminar",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "datos",
+        "Type": "Aplicacion.DTOs.DatosPersonales.DatosPersonalesEliminarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.DatosPersonalesController",
+    "Method": "Filtrar_Cat_DatosPersonales",
+    "RelativePath": "api/DatosPersonales/filtrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filtro",
+        "Type": "Aplicacion.DTOs.DatosPersonales.DatosPersonalesFiltrarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.DatosPersonalesController",
+    "Method": "Listar_Cat_DatosPersonales",
+    "RelativePath": "api/DatosPersonales/listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.EstadoController",
+    "Method": "Actualizar_Cat_Estado",
+    "RelativePath": "api/Estado/actualizar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "estado",
+        "Type": "Aplicacion.DTOs.Estado.EstadoActualizarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.EstadoController",
+    "Method": "Crear_Cat_Estado",
+    "RelativePath": "api/Estado/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "estado",
+        "Type": "Aplicacion.DTOs.Estado.EstadoCrearDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.EstadoController",
+    "Method": "Eliminar_Cat_Estado",
+    "RelativePath": "api/Estado/eliminar",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "estado",
+        "Type": "Aplicacion.DTOs.Estado.EstadoEliminarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.EstadoController",
+    "Method": "Filtrar_Cat_Estado",
+    "RelativePath": "api/Estado/filtrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filtro",
+        "Type": "Aplicacion.DTOs.Estado.EstadoFiltrarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.EstadoController",
+    "Method": "Listar_Cat_Estado",
+    "RelativePath": "api/Estado/listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.MonedaController",
+    "Method": "Actualizar_Cat_Monedas",
+    "RelativePath": "api/Moneda/actualizar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "moneda",
+        "Type": "Aplicacion.DTOs.Moneda.MonedaActualizarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.MonedaController",
+    "Method": "Crear_Cat_Monedas",
+    "RelativePath": "api/Moneda/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "moneda",
+        "Type": "Aplicacion.DTOs.Moneda.MonedaCrearDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.MonedaController",
+    "Method": "Eliminar_Cat_Monedas",
+    "RelativePath": "api/Moneda/eliminar",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "moneda",
+        "Type": "Aplicacion.DTOs.Moneda.MonedaEliminarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.MonedaController",
+    "Method": "Filtrar_Cat_Monedas",
+    "RelativePath": "api/Moneda/filtrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filtro",
+        "Type": "Aplicacion.DTOs.Moneda.MonedaFiltrarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.MonedaController",
+    "Method": "Listar_Cat_Monedas",
+    "RelativePath": "api/Moneda/listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.RolController",
+    "Method": "Actualizar_Cat_Roles",
+    "RelativePath": "api/Rol/actualizar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rol",
+        "Type": "Aplicacion.DTOs.Rol.RolActualizarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.RolController",
+    "Method": "Crear_Cat_Roles",
+    "RelativePath": "api/Rol/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rol",
+        "Type": "Aplicacion.DTOs.Rol.RolCrearDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.RolController",
+    "Method": "Eliminar_Cat_Roles",
+    "RelativePath": "api/Rol/eliminar",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rol",
+        "Type": "Aplicacion.DTOs.Rol.RolEliminarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.RolController",
+    "Method": "Filtrar_Cat_Roles",
+    "RelativePath": "api/Rol/filtrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filtro",
+        "Type": "Aplicacion.DTOs.Rol.RolFiltrarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.RolController",
+    "Method": "Listar_Cat_Roles",
+    "RelativePath": "api/Rol/listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.TipoCatalogoController",
+    "Method": "Actualizar_Cat_Tipo_Catalogo",
+    "RelativePath": "api/TipoCatalogo/actualizar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "estado",
+        "Type": "Aplicacion.DTOs.TipoCatalogo.TipoCatalogoActualizarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.TipoCatalogoController",
+    "Method": "Crear_Cat_Tipo_Catalogo",
+    "RelativePath": "api/TipoCatalogo/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "estado",
+        "Type": "Aplicacion.DTOs.TipoCatalogo.TipoCatalogoCrearDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.TipoCatalogoController",
+    "Method": "Eliminar_Cat_Tipo_Catalogo",
+    "RelativePath": "api/TipoCatalogo/eliminar",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "estado",
+        "Type": "Aplicacion.DTOs.TipoCatalogo.TipoCatalogoEliminarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.TipoCatalogoController",
+    "Method": "Filtrar_Cat_Tipo_Catalogo",
+    "RelativePath": "api/TipoCatalogo/filtrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filtro",
+        "Type": "Aplicacion.DTOs.TipoCatalogo.TipoCatalogoFiltrarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.TipoCatalogoController",
+    "Method": "Listar_Cat_Tipo_Catalogo",
+    "RelativePath": "api/TipoCatalogo/listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]

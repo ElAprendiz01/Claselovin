@@ -5,41 +5,923 @@
     "version": "1.0"
   },
   "paths": {
-    "/WeatherForecast": {
+    "/api/CatGeneral/listar": {
       "get": {
         "tags": [
-          "WeatherForecast"
+          "CatGeneral"
         ],
-        "operationId": "GetWeatherForecast",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CatGeneral/filtrar": {
+      "post": {
+        "tags": [
+          "CatGeneral"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralFiltrarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralFiltrarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralFiltrarDTOs"
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CatGeneral/crear": {
+      "post": {
+        "tags": [
+          "CatGeneral"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralCrearDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralCrearDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralCrearDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CatGeneral/actualizar": {
+      "put": {
+        "tags": [
+          "CatGeneral"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralActualizarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralActualizarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralActualizarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CatGeneral/eliminar": {
+      "delete": {
+        "tags": [
+          "CatGeneral"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralEliminarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralEliminarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CatGeneralEliminarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Contacto/listar": {
+      "get": {
+        "tags": [
+          "Contacto"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Contacto/crear": {
+      "post": {
+        "tags": [
+          "Contacto"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoCrearDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoCrearDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoCrearDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Contacto/actualizar": {
+      "put": {
+        "tags": [
+          "Contacto"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoActualizarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoActualizarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoActualizarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Contacto/eliminar": {
+      "delete": {
+        "tags": [
+          "Contacto"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoEliminarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoEliminarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoEliminarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DatosPersonales/listar": {
+      "get": {
+        "tags": [
+          "DatosPersonales"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DatosPersonales/filtrar": {
+      "post": {
+        "tags": [
+          "DatosPersonales"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesFiltrarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesFiltrarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesFiltrarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DatosPersonales/crear": {
+      "post": {
+        "tags": [
+          "DatosPersonales"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesCrearDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesCrearDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesCrearDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DatosPersonales/actualizar": {
+      "put": {
+        "tags": [
+          "DatosPersonales"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesActualizarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesActualizarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesActualizarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DatosPersonales/eliminar": {
+      "delete": {
+        "tags": [
+          "DatosPersonales"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesEliminarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesEliminarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatosPersonalesEliminarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Estado/listar": {
+      "get": {
+        "tags": [
+          "Estado"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Estado/filtrar": {
+      "post": {
+        "tags": [
+          "Estado"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoFiltrarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoFiltrarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoFiltrarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Estado/crear": {
+      "post": {
+        "tags": [
+          "Estado"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoCrearDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoCrearDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoCrearDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Estado/actualizar": {
+      "put": {
+        "tags": [
+          "Estado"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoActualizarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoActualizarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoActualizarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Estado/eliminar": {
+      "delete": {
+        "tags": [
+          "Estado"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoEliminarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoEliminarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstadoEliminarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Moneda/listar": {
+      "get": {
+        "tags": [
+          "Moneda"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Moneda/filtrar": {
+      "post": {
+        "tags": [
+          "Moneda"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaFiltrarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaFiltrarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaFiltrarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Moneda/crear": {
+      "post": {
+        "tags": [
+          "Moneda"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaCrearDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaCrearDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaCrearDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Moneda/actualizar": {
+      "put": {
+        "tags": [
+          "Moneda"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaActualizarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaActualizarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaActualizarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Moneda/eliminar": {
+      "delete": {
+        "tags": [
+          "Moneda"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaEliminarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaEliminarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MonedaEliminarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Rol/listar": {
+      "get": {
+        "tags": [
+          "Rol"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Rol/filtrar": {
+      "post": {
+        "tags": [
+          "Rol"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolFiltrarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolFiltrarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolFiltrarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Rol/crear": {
+      "post": {
+        "tags": [
+          "Rol"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolCrearDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolCrearDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolCrearDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Rol/actualizar": {
+      "put": {
+        "tags": [
+          "Rol"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolActualizarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolActualizarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolActualizarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Rol/eliminar": {
+      "delete": {
+        "tags": [
+          "Rol"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolEliminarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolEliminarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolEliminarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TipoCatalogo/listar": {
+      "get": {
+        "tags": [
+          "TipoCatalogo"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TipoCatalogo/filtrar": {
+      "post": {
+        "tags": [
+          "TipoCatalogo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoFiltrarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoFiltrarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoFiltrarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TipoCatalogo/crear": {
+      "post": {
+        "tags": [
+          "TipoCatalogo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoCrearDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoCrearDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoCrearDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TipoCatalogo/actualizar": {
+      "put": {
+        "tags": [
+          "TipoCatalogo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoActualizarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoActualizarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoActualizarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TipoCatalogo/eliminar": {
+      "delete": {
+        "tags": [
+          "TipoCatalogo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoEliminarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoEliminarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TipoCatalogoEliminarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -47,24 +929,612 @@
   },
   "components": {
     "schemas": {
-      "WeatherForecast": {
+      "CatGeneralActualizarDTOs": {
         "type": "object",
         "properties": {
-          "date": {
-            "type": "string",
-            "format": "date"
-          },
-          "temperatureC": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "temperatureF": {
+          "id_Catalogo": {
             "type": "integer",
             "format": "int32",
-            "readOnly": true
+            "nullable": true
           },
-          "summary": {
+          "id_Tipo_Catalogo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombre": {
             "type": "string",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "activo": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CatGeneralCrearDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Tipo_Catalogo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Creador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CatGeneralEliminarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Catalogo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CatGeneralFiltrarDTOs": {
+        "type": "object",
+        "properties": {
+          "searchTerm": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Catalogo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Tipo_Catalogo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContactoActualizarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Contacto": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Persona": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Tipo_Contacto": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "contacto": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Estado": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "forzarRecuperacion": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContactoCrearDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Persona": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Tipo_Contacto": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "contacto": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Creador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Estado": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContactoEliminarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Contacto": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DatosPersonalesActualizarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Persona": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Genero": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "primer_Nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "segundo_Nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "primer_Apellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "segundo_Apellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha_Nacimiento": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "id_Tipo_DNI": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dni": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Estado": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "forzarRecuperacion": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DatosPersonalesCrearDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Genero": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "primer_Nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "segundo_Nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "primer_Apellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "segundo_Apellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha_Nacimiento": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "id_Tipo_DNI": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dni": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Creador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Estado": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DatosPersonalesEliminarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Persona": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DatosPersonalesFiltrarDTOs": {
+        "type": "object",
+        "properties": {
+          "searchTerm": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Persona": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EstadoActualizarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Estado": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "activo": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EstadoCrearDTOs": {
+        "type": "object",
+        "properties": {
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Creador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EstadoEliminarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Estado": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EstadoFiltrarDTOs": {
+        "type": "object",
+        "properties": {
+          "searchTerm": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Estado": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MonedaActualizarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Moneda": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "codigo_ISO": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre_Moneda": {
+            "type": "string",
+            "nullable": true
+          },
+          "simbolo": {
+            "type": "string",
+            "nullable": true
+          },
+          "activo": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MonedaCrearDTOs": {
+        "type": "object",
+        "properties": {
+          "codigo_ISO": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre_Moneda": {
+            "type": "string",
+            "nullable": true
+          },
+          "simbolo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MonedaEliminarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Moneda": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MonedaFiltrarDTOs": {
+        "type": "object",
+        "properties": {
+          "searchTerm": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Moneda": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RolActualizarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Rol": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Estado": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "forzarRecuperacion": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RolCrearDTOs": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Creador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Estado": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RolEliminarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Rol": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RolFiltrarDTOs": {
+        "type": "object",
+        "properties": {
+          "searchTerm": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Rol": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TipoCatalogoActualizarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Tipo_Catalogo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "activo": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TipoCatalogoCrearDTOs": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Creador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TipoCatalogoEliminarDTOs": {
+        "type": "object",
+        "properties": {
+          "id_Tipo_Catalogo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TipoCatalogoFiltrarDTOs": {
+        "type": "object",
+        "properties": {
+          "searchTerm": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Tipo_Catalogo": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           }
         },
@@ -74,7 +1544,25 @@
   },
   "tags": [
     {
-      "name": "WeatherForecast"
+      "name": "CatGeneral"
+    },
+    {
+      "name": "Contacto"
+    },
+    {
+      "name": "DatosPersonales"
+    },
+    {
+      "name": "Estado"
+    },
+    {
+      "name": "Moneda"
+    },
+    {
+      "name": "Rol"
+    },
+    {
+      "name": "TipoCatalogo"
     }
   ]
 }

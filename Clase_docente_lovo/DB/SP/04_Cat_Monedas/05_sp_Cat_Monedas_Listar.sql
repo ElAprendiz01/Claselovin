@@ -1,4 +1,4 @@
-USE Presupuesto_Empresarial;
+ USE Presupuesto_Empresarial;
 GO
 
 CREATE OR ALTER PROCEDURE sp_Cat_Monedas_Listar

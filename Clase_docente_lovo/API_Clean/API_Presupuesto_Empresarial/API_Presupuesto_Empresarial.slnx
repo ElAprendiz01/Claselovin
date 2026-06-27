@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/temporales/">
+    <File Path="intrucciones.md" />
+    <File Path="nombres_y_sp_solo_los_paramtros.md" />
+  </Folder>
   <Project Path="Aplicacion/Aplicacion.csproj" />
   <Project Path="Domain/Domain.csproj" />
   <Project Path="Infraestructura/Infraestructura.csproj" />
