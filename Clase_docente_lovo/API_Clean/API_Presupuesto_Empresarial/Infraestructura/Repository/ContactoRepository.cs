@@ -184,6 +184,38 @@ namespace Infraestructura.Repository
             }
         }
 
+        public async Task<IEnumerable<DM_Contacto_listar>> Filtrar_Cat_ContactoAsync(DM_Contacto_filtrar modelo)
+        {
+            var list = new List<DM_Contacto_listar>();
+            try
+            {
+                using var con = _connection.CreateConnection();
+                await con.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("sp_Tbl_Contacto_Filtrar", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new SqlParameter("@SearchTerm", modelo.SearchTerm ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqlParameter("@Id_Contacto", modelo.Id_Contacto ?? (object)DBNull.Value));
+                    cmd.Parameters.Add(new SqlParameter("@Id_Persona", modelo.Id_Persona ?? (object)DBNull.Value));
+
+                    using (SqlDataReader dr = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await dr.ReadAsync())
+                        {
+                            list.Add(MapearDataReaderADominio(dr));
+                        }
+                    }
+                }
+                return list;
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error al filtrar la lista de contactos en la base de datos.", ex);
+            }
+        }
+
         #endregion
 
         #region mapeo

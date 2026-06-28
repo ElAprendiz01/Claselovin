@@ -40,6 +40,22 @@ builder.Services.AddScoped<IDatosPersonalesRepository, DatosPersonalesRepository
 builder.Services.AddScoped<DatosPersonalesServices>();
 builder.Services.AddScoped<IContactoRepository, ContactoRepository>();
 builder.Services.AddScoped<ContactoServices>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<UsuarioServices>();
+builder.Services.AddScoped<IPermisosOpcionesRepository, PermisosOpcionesRepository>();
+builder.Services.AddScoped<PermisosOpcionesServices>();
+builder.Services.AddScoped<IDepartamentoRepository, DepartamentoRepository>();
+builder.Services.AddScoped<DepartamentoServices>();
+builder.Services.AddScoped<ICentroCostoRepository, CentroCostoRepository>();
+builder.Services.AddScoped<CentroCostoServices>();
+builder.Services.AddScoped<IPresupuestoRepository, PresupuestoRepository>();
+builder.Services.AddScoped<PresupuestoServices>();
+builder.Services.AddScoped<IDetallePresupuestoRepository, DetallePresupuestoRepository>();
+builder.Services.AddScoped<DetallePresupuestoServices>();
+builder.Services.AddScoped<IAjustePresupuestoRepository, AjustePresupuestoRepository>();
+builder.Services.AddScoped<AjustePresupuestoServices>();
+builder.Services.AddScoped<IGastoRepository, GastoRepository>();
+builder.Services.AddScoped<GastoServices>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

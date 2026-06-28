@@ -21,6 +21,17 @@ namespace Aplicacion.Services
             return await _repository.Listar_Cat_ContactoAsync();
         }
 
+        public async Task<IEnumerable<DM_Contacto_listar>> Filtrar_Cat_Contacto_Async(ContactoFiltrarDTOs dto)
+        {
+            var modelo = new DM_Contacto_filtrar
+            {
+                SearchTerm = dto.SearchTerm,
+                Id_Contacto = dto.Id_Contacto,
+                Id_Persona = dto.Id_Persona
+            };
+            return await _repository.Filtrar_Cat_ContactoAsync(modelo);
+        }
+
         public async Task<DBResult> Crear_Cat_Contacto_Async(ContactoCrearDTOs dto)
         {
             var modelo = new DM_Contacto_crear

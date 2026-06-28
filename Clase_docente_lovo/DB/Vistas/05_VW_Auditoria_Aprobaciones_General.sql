@@ -13,6 +13,7 @@ SELECT
     A.Comentarios,
     CG_RES.Nombre AS Resultado_Aprobacion,
     A.Id_Usuario_Aprobador,
+	U.Usuario,
     A.Id_Resultado_Aprobacion,
     A.Fecha_Creacion,
     A.Id_Creador

@@ -123,6 +123,22 @@
   },
   {
     "ContainingType": "Presentacion.Controllers.ContactoController",
+    "Method": "Filtrar_Cat_Contacto",
+    "RelativePath": "api/Contacto/filtrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filtro",
+        "Type": "Aplicacion.DTOs.Contacto.ContactoFiltrarDTOs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Presentacion.Controllers.ContactoController",
     "Method": "Listar_Cat_Contacto",
     "RelativePath": "api/Contacto/listar",
     "HttpMethod": "GET",

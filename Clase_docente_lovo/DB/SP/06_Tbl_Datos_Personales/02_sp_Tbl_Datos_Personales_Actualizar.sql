@@ -32,6 +32,16 @@ BEGIN
         RETURN;
     END;
 
+	IF @Fecha_Nacimiento IS NOT NULL
+    BEGIN
+        IF @Fecha_Nacimiento > DATEADD(YEAR, -18, CAST(SYSDATETIME() AS DATE))
+        BEGIN
+            SET @o_code = -1;
+            SET @o_message = 'La persona debe ser mayor de 18 años';
+            RETURN;
+        END;
+    END;
+
     IF @Primer_Nombre IS NOT NULL AND LTRIM(RTRIM(@Primer_Nombre)) = ''
     BEGIN
         SET @o_code = -1;

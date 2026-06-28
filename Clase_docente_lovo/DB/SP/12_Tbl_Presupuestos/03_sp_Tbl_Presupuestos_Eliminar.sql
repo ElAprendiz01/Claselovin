@@ -120,7 +120,7 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Presupuestos_Eliminar
-    @Id_Presupuesto = 1,
+    @Id_Presupuesto = 16,
     @Id_Modificador = 1,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,

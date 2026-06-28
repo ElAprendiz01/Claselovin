@@ -153,6 +153,37 @@
         }
       }
     },
+    "/api/Contacto/filtrar": {
+      "post": {
+        "tags": [
+          "Contacto"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoFiltrarDTOs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoFiltrarDTOs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactoFiltrarDTOs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Contacto/crear": {
       "post": {
         "tags": [
@@ -1092,6 +1123,26 @@
             "nullable": true
           },
           "id_Modificador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContactoFiltrarDTOs": {
+        "type": "object",
+        "properties": {
+          "searchTerm": {
+            "type": "string",
+            "nullable": true
+          },
+          "id_Contacto": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id_Persona": {
             "type": "integer",
             "format": "int32",
             "nullable": true

@@ -39,6 +39,28 @@ namespace Presentacion.Controllers
             }
         }
 
+        [HttpPost("filtrar")]
+        public async Task<IActionResult> Filtrar_Cat_Contacto([FromBody] ContactoFiltrarDTOs filtro)
+        {
+            try
+            {
+                if (filtro == null)
+                {
+                    return BadRequest(new { codigo = 400, msj = "Los criterios de búsqueda son requeridos." });
+                }
+                var lista = await _service.Filtrar_Cat_Contacto_Async(filtro);
+                if (lista == null || !lista.Any())
+                {
+                    return NotFound(new { codigo = 404, msj = "No se encontraron contactos que coincidan con la búsqueda." });
+                }
+                return Ok(new { codigo = 200, msj = "Consulta exitosa", data = lista });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { codigo = 500, msj = ex.Message });
+            }
+        }
+
         #endregion
 
         #region escritura_catalogo

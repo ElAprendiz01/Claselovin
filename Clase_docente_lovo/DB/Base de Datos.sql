@@ -1,7 +1,6 @@
--- 
+
 -- SISTEMA DE CONTROL PRESUPUESTARIO EMPRESARIAL
--- ARQUITECTURA DE BASE DE DATOS OPTIMIZADA 
--- 
+
 
 CREATE DATABASE Presupuesto_Empresarial;
 GO
@@ -9,9 +8,8 @@ GO
 USE Presupuesto_Empresarial;
 GO
 
--- 
 -- 1. MAESTROS, CATÁLOGOS Y MONEDAS (ESTRUCTURAS MADRE)
--- 
+
 
 CREATE TABLE Cat_Estado (
     Id_Estado INT PRIMARY KEY IDENTITY(1,1),
@@ -57,9 +55,9 @@ CREATE TABLE Cat_Monedas (
 );
 GO
 
--- 
+
 -- 2. ENTIDADES DE PERSONAL Y SEGURIDAD
--- 
+
 
 CREATE TABLE Tbl_Datos_Personales (
     Id_Persona INT PRIMARY KEY IDENTITY(1,1),
@@ -135,9 +133,9 @@ CREATE TABLE Tbl_Permisos_Opciones (
 );
 GO
 
--- 
+
 -- 3. ESTRUCTURA ORGANIZACIONAL Y MODELO PRESUPUESTARIO
--- 
+
 
 CREATE TABLE Tbl_Departamentos (
     Id_Departamento INT PRIMARY KEY IDENTITY(1,1),
@@ -205,9 +203,9 @@ CREATE TABLE Tbl_Ajustes_Presupuesto (
 );
 GO
 
--- 
+
 -- 4. OPERACIONES, LOGÍSTICA DE CONTROL Y LOGS
--- 
+
 
 CREATE TABLE Tbl_Gastos (
     Id_Gasto INT PRIMARY KEY IDENTITY(1,1),
