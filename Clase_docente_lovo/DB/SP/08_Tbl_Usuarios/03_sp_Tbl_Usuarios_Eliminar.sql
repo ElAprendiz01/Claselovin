@@ -112,7 +112,7 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Usuarios_Eliminar
-    @Id_Usuario = 3,
+    @Id_Usuario = 9,
     @Id_Modificador = 1,
     @o_code = @v_code OUTPUT,
     @o_message = @v_message OUTPUT,

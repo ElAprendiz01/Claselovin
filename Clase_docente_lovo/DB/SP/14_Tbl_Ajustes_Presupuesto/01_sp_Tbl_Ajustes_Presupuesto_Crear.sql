@@ -82,7 +82,7 @@ BEGIN
         IF (@Monto_Presupuestado - @Monto_Ajuste) <= @Monto_Ejecutado
         BEGIN
             SET @o_code = -1;
-            SET @o_message = 'La reduccion haria que el presupuesto sea menor o igual al ejecutado';
+            SET @o_message = 'El monto de reduccion es mayor que el monto que exite en sus registros'+ CHAR(13) + CHAR(10) + 'por favor verifique su fondo';
             RETURN;
         END;
     END;
@@ -200,8 +200,8 @@ DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Ajustes_Presupuesto_Crear
     @Id_Presupuesto_Detalle = 1,
-    @Tipo_Ajuste = 'INCREMENTO',
-    @Monto_Ajuste = 5000.00,
+    @Tipo_Ajuste = 'REDUCCION',
+    @Monto_Ajuste = 38000.00,
     @Justificacion = 'Ajuste de incremento para pruebas de adenda',
     @Id_Creador = 1,
     @o_code = @v_code OUTPUT,
@@ -213,3 +213,10 @@ SELECT
     @v_message AS MensajeResultado, 
     @v_templateId AS AjusteIdGenerado;
 GO
+
+
+
+select * from Tbl_Ajustes_Presupuesto
+select * from Tbl_Detalle_Presupuesto
+select * from Tbl_Alertas
+Tbl_Ajustes_Presupuesto

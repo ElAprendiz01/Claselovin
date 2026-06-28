@@ -159,3 +159,10 @@ SELECT
     @v_message AS MensajeResultado, 
     @v_templateId AS GastoIdEliminado;
 GO
+select * from Tbl_Gastos 
+select * from Tbl_Detalle_Presupuesto
+
+UPDATE Tbl_Detalle_Presupuesto
+SET  
+    Monto_Ejecutado = 0  
+WHERE Id_Presupuesto_Detalle = 2;

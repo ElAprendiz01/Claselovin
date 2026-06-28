@@ -13,6 +13,7 @@ BEGIN
         Id_Gasto,
         Id_Usuario_Aprobador,
         Nombre_Aprobador,
+		Usuario,
         Fecha_Decision,
         Comentarios,
         Id_Resultado_Aprobacion,
@@ -26,3 +27,6 @@ GO
 -- Ejemplo ejecucion
 EXEC sp_Tbl_Aprobaciones_Listar;
 GO
+
+
+select * from VW_Auditoria_Aprobaciones_General

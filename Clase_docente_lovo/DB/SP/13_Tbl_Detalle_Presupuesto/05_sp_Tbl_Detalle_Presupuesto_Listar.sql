@@ -29,6 +29,11 @@ BEGIN
 END;
 GO
 
+exec sp_Tbl_Detalle_Presupuesto_Listar
+
 -- Ejemplo ejecucion
 EXEC sp_Tbl_Detalle_Presupuesto_Listar;
 GO
+
+
+exec sp_Tbl_Detalle_Presupuesto_Listar

@@ -12,38 +12,36 @@ BEGIN
     SET NOCOUNT ON;
 
     -- Consultar datos con filtros
-    SELECT 
-        U.Id_Usuario,
-        U.Usuario,
-        U.Id_Persona,
-        (P.Primer_Nombre + ' ' + ISNULL(P.Segundo_Nombre, '') + ' ' + P.Primer_Apellido + ' ' + ISNULL(P.Segundo_Apellido, '')) AS Nombre_Completo,
-        P.DNI,
-        U.Id_Rol,
-        R.Nombre AS Nombre_Rol,
-        U.Id_Estado,
-        E.Estado AS Nombre_Estado,
-        U.Id_Creador,
-        U.Id_Modificador,
-        U.Fecha_Creacion,
-        U.Fecha_Modificacion
-    FROM Tbl_Usuarios U (NOLOCK)
-    INNER JOIN Tbl_Datos_Personales P (NOLOCK) ON U.Id_Persona = P.Id_Persona
-    INNER JOIN Tbl_Roles R (NOLOCK) ON U.Id_Rol = R.Id_Rol
-    INNER JOIN Cat_Estado E (NOLOCK) ON U.Id_Estado = E.Id_Estado
-    WHERE (
-        @SearchTerm IS NULL
-        OR U.Usuario LIKE '%' + @SearchTerm + '%'
-        OR P.Primer_Nombre LIKE '%' + @SearchTerm + '%'
-        OR P.Primer_Apellido LIKE '%' + @SearchTerm + '%'
-        OR R.Nombre LIKE '%' + @SearchTerm + '%'
-        OR (
-            TRY_CAST(@SearchTerm AS INT) IS NOT NULL 
-            AND U.Id_Usuario = TRY_CAST(@SearchTerm AS INT)
-        )
-    )
-    AND (@Id_Usuario IS NULL OR U.Id_Usuario = @Id_Usuario)
-    AND (@Id_Rol IS NULL OR U.Id_Rol = @Id_Rol)
-    OPTION (RECOMPILE);
+   SELECT 
+        Id_Usuario,
+        Usuario,
+        Id_Persona,
+        Nombre_Completo,
+        DNI,
+        Id_Rol,
+        Nombre_Rol,
+        Id_Estado_Usuario AS Id_Estado, 
+        Estado_Usuario AS Nombre_Estado, 
+        Id_Creador,
+        Id_Modificador,
+        Fecha_Creacion,
+        Fecha_Modificacion
+    FROM VW_Usuarios_Personal_General (NOLOCK)
+
+	 WHERE (
+			@SearchTerm IS NULL
+			OR Usuario LIKE '%' + @SearchTerm + '%'
+			OR Nombre_Completo LIKE '%' + @SearchTerm + '%'
+			OR Nombre_Rol LIKE '%' + @SearchTerm + '%'
+			OR DNI LIKE '%' + @SearchTerm + '%' 
+			OR (
+				TRY_CAST(@SearchTerm AS INT) IS NOT NULL 
+				AND Id_Usuario = TRY_CAST(@SearchTerm AS INT)
+			)
+		)
+		AND (@Id_Usuario IS NULL OR Id_Usuario = @Id_Usuario)
+		AND (@Id_Rol IS NULL OR Id_Rol = @Id_Rol)
+		OPTION (RECOMPILE);
 END;
 GO
 

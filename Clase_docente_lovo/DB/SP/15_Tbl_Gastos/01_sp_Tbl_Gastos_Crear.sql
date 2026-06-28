@@ -11,7 +11,7 @@ CREATE OR ALTER PROCEDURE sp_Tbl_Gastos_Crear
     @Numero_Factura NVARCHAR(50) = NULL,
     @Id_Proveedor INT,
     @Id_Creador INT,
-    @Id_Estado INT = 3, -- Por defecto Pendiente Aprobacion (ID: 3)
+    @Id_Estado INT = NULL, -- Lo dejamos NULL para manejarlo dinámicamente YA VERAN COMO LO HACEMOS ESO MAS ADELANTE APLICAMOS UNA LOGICA BRUTAL
     @o_code INT = NULL OUTPUT,
     @o_message VARCHAR(255) = NULL OUTPUT,
     @o_templateId INT = NULL OUTPUT
@@ -21,91 +21,102 @@ BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 
-    -- Validar parametros de entrada
+
+    -- VALIDACIONES DE ENTRADA
+  
     IF @Id_Presupuesto_Detalle IS NULL OR @Id_Presupuesto_Detalle <= 0
     BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'El ID del detalle de presupuesto es obligatorio';
+        SET @o_code = -1; SET @o_message = 'El ID del detalle de presupuesto es obligatorio';
         RETURN;
     END;
 
     IF @Id_Tipo_Gasto IS NULL OR @Id_Tipo_Gasto <= 0
     BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'El tipo de gasto es obligatorio';
+        SET @o_code = -1; SET @o_message = 'El tipo de gasto es obligatorio';
         RETURN;
     END;
 
     IF @Descripcion_Gasto IS NULL OR LTRIM(RTRIM(@Descripcion_Gasto)) = ''
     BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'La descripcion del gasto es obligatoria';
+        SET @o_code = -1; SET @o_message = 'La descripcion del gasto es obligatoria';
         RETURN;
     END;
 
     IF @Monto_Gasto IS NULL OR @Monto_Gasto <= 0
     BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'El monto del gasto debe ser mayor a 0';
+        SET @o_code = -1; SET @o_message = 'El monto del gasto debe ser mayor a 0';
         RETURN;
     END;
 
     IF @Id_Proveedor IS NULL OR @Id_Proveedor <= 0
     BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'El proveedor es obligatorio';
+        SET @o_code = -1; SET @o_message = 'El proveedor es obligatorio';
         RETURN;
     END;
 
     IF @Id_Creador IS NULL OR @Id_Creador <= 0
     BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'El creador es obligatorio';
+        SET @o_code = -1; SET @o_message = 'El creador es obligatorio';
         RETURN;
     END;
 
-    -- Validar existencia y estado del presupuesto padre (debe ser aprobado, ID 4)
+    -- Validar existencia y estado del presupuesto padre (debe ser aprobado)
+    -- Buscaremos el ID de 'Aprobado' dinámicamente para la validación
+    DECLARE @Id_Estado_Aprobado INT;
+    DECLARE @Id_Estado_Pendiente INT;
+    DECLARE @Id_Resultado_Autorizado INT;
+
+    SELECT TOP 1 @Id_Estado_Aprobado = Id_Estado FROM Cat_Estado WHERE Estado = 'Aprobado' AND Activo = 1;
+    SELECT TOP 1 @Id_Estado_Pendiente = Id_Estado FROM Cat_Estado WHERE Estado = 'Pendiente' AND Activo = 1;
+    SELECT TOP 1 @Id_Resultado_Autorizado = Id_Catalogo FROM Cat_General WHERE Nombre = 'Autorizado' AND Id_Tipo_Catalogo = 5 AND Activo = 1;
+
+    IF @Id_Estado_Aprobado IS NULL OR @Id_Estado_Pendiente IS NULL OR @Id_Resultado_Autorizado IS NULL
+    BEGIN
+        SET @o_code = -1; SET @o_message = 'Error: Estructura de catálogos corrupta o incompleta.';
+        RETURN;
+    END;
+
     IF NOT EXISTS (
         SELECT 1 
         FROM Tbl_Detalle_Presupuesto DP
         INNER JOIN Tbl_Presupuestos P ON DP.Id_Presupuesto = P.Id_Presupuesto
-        WHERE DP.Id_Presupuesto_Detalle = @Id_Presupuesto_Detalle AND P.Id_Estado = 4
+        WHERE DP.Id_Presupuesto_Detalle = @Id_Presupuesto_Detalle AND P.Id_Estado = @Id_Estado_Aprobado
     )
     BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'El presupuesto asociado no esta aprobado o no existe';
+        SET @o_code = -1; SET @o_message = 'El presupuesto asociado no esta aprobado o no existe';
         RETURN;
     END;
 
-    -- Validar existencia del tipo de gasto
+    -- Validar existencia del tipo de gasto (Tipo 7)
     IF NOT EXISTS (SELECT 1 FROM Cat_General WHERE Id_Catalogo = @Id_Tipo_Gasto AND Id_Tipo_Catalogo = 7 AND Activo = 1)
     BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'El tipo de gasto no existe o esta inactivo';
+        SET @o_code = -1; SET @o_message = 'El tipo de gasto no existe o esta inactivo';
         RETURN;
     END;
 
-    -- Validar existencia del proveedor
-    IF NOT EXISTS (SELECT 1 FROM Cat_General WHERE Id_Catalogo = @Id_Proveedor AND Id_Tipo_Catalogo = 6 AND Activo = 1)
+  DECLARE @Id_Tipo_Proveedor INT;
+    SELECT TOP 1 @Id_Tipo_Proveedor = Id_Tipo_Catalogo 
+    FROM Cat_Tipo_Catalogo 
+    WHERE Nombre in ( 'Proveedores', 'proveedor' )AND Activo = 1; 
+
+    -- 2. Validar existencia del proveedor usando la variable
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM Cat_General 
+        WHERE Id_Catalogo = @Id_Proveedor 
+          AND Id_Tipo_Catalogo = @Id_Tipo_Proveedor 
+          AND Activo = 1
+    )
     BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'El proveedor no existe o esta inactivo';
+        SET @o_code = -1; 
+        SET @o_message = 'El proveedor no existe, está inactivo o no pertenece al catálogo de proveedores';
         RETURN;
     END;
 
     -- Validar creador activo
     IF NOT EXISTS (SELECT 1 FROM Tbl_Usuarios WHERE Id_Usuario = @Id_Creador AND Id_Estado = 1)
     BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'El creador no existe o esta inactivo';
-        RETURN;
-    END;
-
-    -- Validar existencia del estado del gasto
-    IF NOT EXISTS (SELECT 1 FROM Cat_Estado WHERE Id_Estado = @Id_Estado AND Activo = 1)
-    BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'El estado del gasto no existe o esta inactivo';
+        SET @o_code = -1; SET @o_message = 'El creador no existe o esta inactivo';
         RETURN;
     END;
 
@@ -116,11 +127,10 @@ BEGIN
     FROM Tbl_Detalle_Presupuesto
     WHERE Id_Presupuesto_Detalle = @Id_Presupuesto_Detalle;
 
-    -- Control de disponibilidad estricto (debe ser menor al presupuestado debido a constraint)
+    -- Control de disponibilidad estricto
     IF (@Monto_Ejecutado + @Monto_Gasto) >= @Monto_Presupuestado
     BEGIN
-        SET @o_code = -1;
-        SET @o_message = 'El gasto excede el limite presupuestario disponible';
+        SET @o_code = -1; SET @o_message = 'El gasto excede el limite presupuestario disponible';
         RETURN;
     END;
 
@@ -128,104 +138,90 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        -- Determinar auto aprobacion por bajo monto
+        --  DETERMINAR ESTADO INICIAL DINÁMICAMENTE 
         DECLARE @Estado_Final INT;
-        SET @Estado_Final = @Id_Estado;
+        
+        -- Si viene un estado específico por parámetro se respeta, si no, por defecto es Pendiente SEGUN LA LOGICA DE MI TIA LA FINANCIERA JAJAJ
+        SET @Id_Estado = ISNULL(@Id_Estado, @Id_Estado_Pendiente);
 
-        IF @Monto_Gasto <= 100.00 AND @Id_Estado = 3
+        -- Regla de Auto Aprobación por bajo monto (menor o igual a $100.00)
+        IF @Monto_Gasto <= 100.00 AND @Id_Estado = @Id_Estado_Pendiente
         BEGIN
-            SET @Estado_Final = 4;
+            SET @Estado_Final = @Id_Estado_Aprobado;
+        END;
+        ELSE
+        BEGIN
+            SET @Estado_Final = @Id_Estado;
         END;
 
         -- Insertar el gasto
         INSERT INTO Tbl_Gastos
         (
-            Id_Presupuesto_Detalle,
-            Id_Tipo_Gasto,
-            Descripcion_Gasto,
-            Monto_Gasto,
-            Fecha_Gasto,
-            Numero_Factura,
-            Id_Proveedor,
-            Id_Creador,
-            Id_Estado
+            Id_Presupuesto_Detalle, Id_Tipo_Gasto, Descripcion_Gasto, Monto_Gasto,
+            Fecha_Gasto, Numero_Factura, Id_Proveedor, Id_Creador, Id_Estado
         )
         VALUES
         (
-            @Id_Presupuesto_Detalle,
-            @Id_Tipo_Gasto,
-            TRIM(@Descripcion_Gasto),
-            @Monto_Gasto,
-            ISNULL(@Fecha_Gasto, SYSDATETIME()),
-            TRIM(@Numero_Factura),
-            @Id_Proveedor,
-            @Id_Creador,
-            @Estado_Final
+            @Id_Presupuesto_Detalle, @Id_Tipo_Gasto, TRIM(@Descripcion_Gasto), @Monto_Gasto,
+            ISNULL(@Fecha_Gasto, SYSDATETIME()), TRIM(@Numero_Factura), @Id_Proveedor, @Id_Creador, @Estado_Final
         );
 
         SET @o_templateId = SCOPE_IDENTITY();
 
-        -- Registrar aprobacion automatica si aplica
-        IF @Estado_Final = 4 AND @Id_Estado = 3
+        -- Solo alteramos la billetera de la empresa SI el gasto quedó como APROBADO automáticamente
+        IF @Estado_Final = @Id_Estado_Aprobado
         BEGIN
+            -- 1. Insertar aprobación automática del sistema
             INSERT INTO Tbl_Aprobaciones
             (
-                Id_Gasto,
-                Id_Usuario_Aprobador,
-                Fecha_Decision,
-                Id_Resultado_Aprobacion,
-                Comentarios,
-                Id_Creador
+                Id_Gasto, Id_Usuario_Aprobador, Fecha_Decision,
+                Id_Resultado_Aprobacion, Comentarios, Id_Creador
             )
             VALUES
             (
-                @o_templateId,
-                @Id_Creador,
-                SYSDATETIME(),
-                11,
-                'Auto aprobado por el sistema por bajo monto',
-                @Id_Creador
+                @o_templateId, @Id_Creador, SYSDATETIME(),
+                @Id_Resultado_Autorizado, 'Auto aprobado por el sistema por bajo monto', @Id_Creador
             );
-        END;
 
-        -- Actualizar el monto ejecutado del detalle
-        UPDATE Tbl_Detalle_Presupuesto
-        SET Monto_Ejecutado = Monto_Ejecutado + @Monto_Gasto,
-            Fecha_Modificacion = SYSDATETIME(),
-            Id_Modificador = @Id_Creador
-        WHERE Id_Presupuesto_Detalle = @Id_Presupuesto_Detalle;
+            -- 2. Modificar el monto ejecutado real
+            UPDATE Tbl_Detalle_Presupuesto
+            SET Monto_Ejecutado = Monto_Ejecutado + @Monto_Gasto,
+                Fecha_Modificacion = SYSDATETIME(),
+                Id_Modificador = @Id_Creador
+            WHERE Id_Presupuesto_Detalle = @Id_Presupuesto_Detalle;
 
-        -- Calcular nuevo porcentaje de ejecucion
-        DECLARE @Nuevo_Monto_Ejecutado DECIMAL(18,2);
-        SELECT @Nuevo_Monto_Ejecutado = Monto_Ejecutado 
-        FROM Tbl_Detalle_Presupuesto 
-        WHERE Id_Presupuesto_Detalle = @Id_Presupuesto_Detalle;
+            -- 3. Calcular alertas solo si se sumó dinero
+            DECLARE @Nuevo_Monto_Ejecutado DECIMAL(18,2);
+            SELECT @Nuevo_Monto_Ejecutado = Monto_Ejecutado 
+            FROM Tbl_Detalle_Presupuesto 
+            WHERE Id_Presupuesto_Detalle = @Id_Presupuesto_Detalle;
 
-        DECLARE @Porcentaje DECIMAL(5,2);
-        SET @Porcentaje = (@Nuevo_Monto_Ejecutado / @Monto_Presupuestado) * 100.00;
+            DECLARE @Porcentaje DECIMAL(5,2);
+            SET @Porcentaje = (@Nuevo_Monto_Ejecutado / @Monto_Presupuestado) * 100.00;
 
-        -- Alerta automatica si supera el 85%
-        IF @Porcentaje > 85.00
-        BEGIN
-            DECLARE @v_alerta_code INT;
-            DECLARE @v_alerta_message VARCHAR(255);
-            DECLARE @v_alerta_id INT;
-
-            EXEC sp_Tbl_Alertas_Crear
-                @Id_Presupuesto_Detalle = @Id_Presupuesto_Detalle,
-                @Porcentaje_Consumido = @Porcentaje,
-                @Mensaje_Alerta = 'Consumo de presupuesto excede el 85 por ciento',
-                @Id_Estado = 1,
-                @o_code = @v_alerta_code OUTPUT,
-                @o_message = @v_alerta_message OUTPUT,
-                @o_templateId = @v_alerta_id OUTPUT;
-
-            IF @v_alerta_code <> 200
+            -- Alerta automatica si supera el 85%
+            IF @Porcentaje > 85.00
             BEGIN
-                SET @o_code = @v_alerta_code;
-                SET @o_message = @v_alerta_message;
-                ROLLBACK TRANSACTION;
-                RETURN;
+                DECLARE @v_alerta_code INT;
+                DECLARE @v_alerta_message VARCHAR(255);
+                DECLARE @v_alerta_id INT;
+
+                EXEC sp_Tbl_Alertas_Crear
+                    @Id_Presupuesto_Detalle = @Id_Presupuesto_Detalle,
+                    @Porcentaje_Consumido = @Porcentaje,
+                    @Mensaje_Alerta = 'Consumo de presupuesto excede el 85 por ciento',
+                    @Id_Estado = 1,
+                    @o_code = @v_alerta_code OUTPUT,
+                    @o_message = @v_alerta_message OUTPUT,
+                    @o_templateId = @v_alerta_id OUTPUT;
+
+                IF @v_alerta_code <> 200
+                BEGIN
+                    SET @o_code = @v_alerta_code;
+                    SET @o_message = @v_alerta_message;
+                    ROLLBACK TRANSACTION;
+                    RETURN;
+                END;
             END;
         END;
 
@@ -251,10 +247,10 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Gastos_Crear
-    @Id_Presupuesto_Detalle = 1,
+    @Id_Presupuesto_Detalle = 2,
     @Id_Tipo_Gasto = 16,
     @Descripcion_Gasto = 'Soporte AWS Junio 2026',
-    @Monto_Gasto = 1000.00,
+    @Monto_Gasto = 20.00,
     @Id_Proveedor = 13,
     @Id_Creador = 3,
     @Id_Estado = 3,
@@ -267,3 +263,7 @@ SELECT
     @v_message AS MensajeResultado, 
     @v_templateId AS GastoIdGenerado;
 GO
+
+
+select * from Tbl_Ajustes_Presupuesto
+select * from Tbl_Detalle_Presupuesto

@@ -12,36 +12,33 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Consultar datos con filtros
     SELECT 
-        A.Id_Aprobacion,
-        A.Id_Presupuesto,
-        A.Id_Gasto,
-        A.Id_Usuario_Aprobador,
-        (P.Primer_Nombre + ' ' + P.Primer_Apellido) AS Nombre_Aprobador,
-        A.Fecha_Decision,
-        A.Comentarios,
-        A.Id_Resultado_Aprobacion,
-        CG_RES.Nombre AS Resultado_Aprobacion,
-        A.Fecha_Creacion,
-        A.Id_Creador
-    FROM Tbl_Aprobaciones A (NOLOCK)
-    INNER JOIN Tbl_Usuarios U (NOLOCK) ON A.Id_Usuario_Aprobador = U.Id_Usuario
-    INNER JOIN Tbl_Datos_Personales P (NOLOCK) ON U.Id_Persona = P.Id_Persona
-    INNER JOIN Cat_General CG_RES (NOLOCK) ON A.Id_Resultado_Aprobacion = CG_RES.Id_Catalogo
+        Id_Aprobacion,
+        Id_Presupuesto,
+        Id_Gasto,
+        Id_Usuario_Aprobador,
+        Nombre_Aprobador,
+		Usuario,
+        Fecha_Decision,
+        Comentarios,
+        Id_Resultado_Aprobacion,
+        Resultado_Aprobacion,
+        Fecha_Creacion,
+        Id_Creador
+    FROM VW_Auditoria_Aprobaciones_General (NOLOCK)
     WHERE (
         @SearchTerm IS NULL
-        OR A.Comentarios LIKE '%' + @SearchTerm + '%'
-        OR CG_RES.Nombre LIKE '%' + @SearchTerm + '%'
-        OR U.Usuario LIKE '%' + @SearchTerm + '%'
+        OR Comentarios LIKE '%' + @SearchTerm + '%'
+        OR Resultado_Aprobacion LIKE '%' + @SearchTerm + '%'
+        OR Usuario LIKE '%' + @SearchTerm + '%'
         OR (
             TRY_CAST(@SearchTerm AS INT) IS NOT NULL 
-            AND A.Id_Aprobacion = TRY_CAST(@SearchTerm AS INT)
+            AND Id_Aprobacion = TRY_CAST(@SearchTerm AS INT)
         )
     )
-    AND (@Id_Aprobacion IS NULL OR A.Id_Aprobacion = @Id_Aprobacion)
-    AND (@Id_Presupuesto IS NULL OR A.Id_Presupuesto = @Id_Presupuesto)
-    AND (@Id_Gasto IS NULL OR A.Id_Gasto = @Id_Gasto)
+    AND (@Id_Aprobacion IS NULL OR Id_Aprobacion = @Id_Aprobacion)
+    AND (@Id_Presupuesto IS NULL OR Id_Presupuesto = @Id_Presupuesto)
+    AND (@Id_Gasto IS NULL OR Id_Gasto = @Id_Gasto)
     OPTION (RECOMPILE);
 END;
 GO
@@ -50,7 +47,7 @@ GO
 EXEC sp_Tbl_Aprobaciones_Filtrar;
 GO
 
-EXEC sp_Tbl_Aprobaciones_Filtrar @SearchTerm = 'Autorizado';
+EXEC sp_Tbl_Aprobaciones_Filtrar @SearchTerm = 'ana_finanzas';
 GO
 
 EXEC sp_Tbl_Aprobaciones_Filtrar @Id_Gasto = 1;

@@ -170,10 +170,10 @@ DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
 EXEC sp_Tbl_Centros_Costo_Actualizar
-    @Id_Centro_Costo = 1,
+    @Id_Centro_Costo = 5,
     @Id_Departamento = 1,
     @Nombre_Centro = 'Infraestructura y Cloud',
-    @Codigo_Contable = 'CC-TI-01',
+    @Codigo_Contable = 'CC-TI-03',
     @Id_Modificador = 1,
     @Id_Estado = 1,
     @o_code = @v_code OUTPUT,

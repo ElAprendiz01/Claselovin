@@ -147,15 +147,36 @@ BEGIN
         );
 
         SET @o_templateId = SCOPE_IDENTITY();
+		DECLARE @Nuevo_Estado INT;
+        DECLARE @Id_Estado_Aprobado INT;
+        DECLARE @Id_Estado_Rechazado INT;
+        DECLARE @Id_Resultado_Autorizado INT;
 
-        -- Determinar nuevo estado (4: Aprobado, 5: Rechazado)
-        DECLARE @Nuevo_Estado INT;
-        IF @Id_Resultado_Aprobacion = 11 -- Autorizado
-            SET @Nuevo_Estado = 4; -- Aprobado
+        -- 1. Buscar IDs de estados por nombre en Cat_Estado
+        SELECT TOP 1 @Id_Estado_Aprobado = Id_Estado 
+        FROM Cat_Estado 
+        WHERE Estado = 'Aprobado' AND Activo = 1;
+
+        SELECT TOP 1 @Id_Estado_Rechazado = Id_Estado 
+        FROM Cat_Estado 
+        WHERE Estado = 'Rechazado' AND Activo = 1;
+
+        
+        SELECT TOP 1 @Id_Resultado_Autorizado = Id_Catalogo
+        FROM Cat_General
+        WHERE Nombre = 'Autorizado' AND Id_Tipo_Catalogo = 5 AND Activo = 1;
+
+        IF @Id_Estado_Aprobado IS NULL OR @Id_Estado_Rechazado IS NULL OR @Id_Resultado_Autorizado IS NULL
+        BEGIN
+            RAISERROR('Error: No se encontraron los catálogos necesarios ("Aprobado", "Rechazado" o "Autorizado") activos.', 16, 1);
+        END;
+
+        -- 3. Asignar el estado final comparando variables dinámicas
+        IF @Id_Resultado_Aprobacion = @Id_Resultado_Autorizado 
+            SET @Nuevo_Estado = @Id_Estado_Aprobado; 
         ELSE
-            SET @Nuevo_Estado = 5; -- Rechazado
+            SET @Nuevo_Estado = @Id_Estado_Rechazado; 
 
-        -- Actualizar estado de la entidad correspondiente
         IF @Id_Presupuesto IS NOT NULL
         BEGIN
             UPDATE Tbl_Presupuestos
@@ -170,8 +191,8 @@ BEGIN
             SET Id_Estado = @Nuevo_Estado
             WHERE Id_Gasto = @Id_Gasto;
 
-            -- Liberar monto del ejecutado al rechazar
-            IF @Nuevo_Estado = 5
+            -- Liberar monto del ejecutado al rechazar (Usa la variable dinámica de rechazo)
+            IF @Nuevo_Estado = @Id_Estado_Rechazado
             BEGIN
                 UPDATE Tbl_Detalle_Presupuesto
                 SET Monto_Ejecutado = Monto_Ejecutado - @Monto_Gasto,
@@ -226,17 +247,12 @@ DECLARE @v_code INT;
 DECLARE @v_message VARCHAR(255);
 DECLARE @v_templateId INT;
 
--- Insertar primero un gasto pendiente temporal para aprobar
-INSERT INTO Tbl_Gastos (Id_Presupuesto_Detalle, Id_Tipo_Gasto, Descripcion_Gasto, Monto_Gasto, Id_Proveedor, Id_Creador, Id_Estado)
-VALUES (1, 16, 'Gasto de pruebas aprobacion', 500.00, 13, 3, 3); -- ID temporal generado
-
-DECLARE @v_Gasto_Id INT = SCOPE_IDENTITY();
 
 EXEC sp_Tbl_Aprobaciones_Crear
-    @Id_Presupuesto = NULL,
-    @Id_Gasto = @v_Gasto_Id,
+    @Id_Presupuesto = 1,
+    @Id_Gasto = 2,
     @Id_Usuario_Aprobador = 2, -- Gerente Financiero
-    @Id_Resultado_Aprobacion = 11, -- Autorizado
+    @Id_Resultado_Aprobacion = 56, -- Autorizado
     @Comentarios = 'Aprobado satisfactoriamente',
     @Id_Creador = 2,
     @o_code = @v_code OUTPUT,

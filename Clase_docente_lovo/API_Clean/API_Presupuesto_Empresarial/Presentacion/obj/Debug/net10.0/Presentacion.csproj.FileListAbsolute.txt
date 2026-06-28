@@ -73,4 +73,3 @@ C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupu
 C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Presentacion\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Presentacion\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Presentacion\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Gestion de proyectos de software 5to\Clase_docente_lovo\API_Clean\API_Presupuesto_Empresarial\Presentacion\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
