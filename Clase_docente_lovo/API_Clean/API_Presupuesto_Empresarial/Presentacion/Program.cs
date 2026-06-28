@@ -1,5 +1,8 @@
 using System.Text;
 using Infraestructura.DB;
+using Aplicacion.Interfaces;
+using Aplicacion.Services;
+using Infraestructura.Repository;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +26,20 @@ var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddSingleton(new DBconexionfactory(connectionString!));
 
 // Add services to the container.
+builder.Services.AddScoped<IEstadoRepository, EstadoRepository>();
+builder.Services.AddScoped<EstadoServices>();
+builder.Services.AddScoped<ITipoCatalogoRepository, TipoCatalogoRepository>();
+builder.Services.AddScoped<TipoCatalogoServices>();
+builder.Services.AddScoped<ICatGeneralRepository, CatGeneralRepository>();
+builder.Services.AddScoped<CatGeneralServices>();
+builder.Services.AddScoped<IMonedaRepository, MonedaRepository>();
+builder.Services.AddScoped<MonedaServices>();
+builder.Services.AddScoped<IRolRepository, RolRepository>();
+builder.Services.AddScoped<RolServices>();
+builder.Services.AddScoped<IDatosPersonalesRepository, DatosPersonalesRepository>();
+builder.Services.AddScoped<DatosPersonalesServices>();
+builder.Services.AddScoped<IContactoRepository, ContactoRepository>();
+builder.Services.AddScoped<ContactoServices>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
